@@ -14,7 +14,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void registerUser(@RequestBody RegisterRequestDTO registerRequestDTO){
+    public void registerUser(RegisterRequestDTO registerRequestDTO){
         UserEntity user = new UserEntity();
         user.setEmail(registerRequestDTO.getEmail());
         user.setPassword(registerRequestDTO.getPassword());

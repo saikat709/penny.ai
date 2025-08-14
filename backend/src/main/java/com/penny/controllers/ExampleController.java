@@ -20,7 +20,7 @@ public class ExampleController {
     @GetMapping(value = "/test")
     public String testGet(@RequestBody(required = false) String body) {
         if (body == null || body.isBlank()) {
-            return "test auto. and more";
+            return "test auto reload....";
         }
         return body;
     }

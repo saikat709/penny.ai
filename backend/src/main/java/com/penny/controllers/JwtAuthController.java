@@ -1,7 +1,11 @@
 package com.penny.controllers;
 
+import com.penny.dto.RegisterRequestDTO;
 import com.penny.services.UserService;
 import com.penny.utils.JwtUtil;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -25,11 +30,16 @@ public class JwtAuthController {
     }
 
 
-//    @PostMapping("/register")
-//    public ResponseEntity<?> registerUser(@RequestBody RegisterRequestDTO registerRequestDTO){
-//        userService.registerUser(registerRequestDTO);
-//        return ResponseEntity.ok("success");
-//    }
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser( @Valid @RequestBody RegisterRequestDTO registerRequestDTO){
+        try {
+            userService.registerUser(registerRequestDTO);
+            return ResponseEntity.ok(Map.of("message", "success"));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
 
     @PostMapping("/login")
     public Map<String, String> login(@RequestParam String username, @RequestParam String password){

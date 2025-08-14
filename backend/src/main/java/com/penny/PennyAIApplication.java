@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PennyAIApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PennyAIApplication.class, args);
+		 SpringApplication.run(PennyAIApplication.class, args);
 	}
 
 }
