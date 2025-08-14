@@ -10,7 +10,6 @@ public class PennyAIApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PennyAIApplication.class, args);
-
 	}
 
 }

@@ -13,3 +13,8 @@
 ./mvnw clean package
 java -jar target/pennyai-0.0.1-SNAPSHOT.jar
 ```
+
+
+```bash
+./mvnw dependency:tree
+```
