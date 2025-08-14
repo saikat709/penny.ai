@@ -1,6 +1,5 @@
 package com.penny.models;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,6 +25,5 @@ public class UserEntity {
     @NotBlank
     private String password;
 
-    @Nullable
     private String googleId;
 }

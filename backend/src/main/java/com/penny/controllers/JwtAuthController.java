@@ -4,7 +4,6 @@ import com.penny.dto.RegisterRequestDTO;
 import com.penny.services.UserService;
 import com.penny.utils.JwtUtil;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,19 +31,16 @@ public class JwtAuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser( @Valid @RequestBody RegisterRequestDTO registerRequestDTO){
-        try {
-            userService.registerUser(registerRequestDTO);
-            return ResponseEntity.ok(Map.of("message", "success"));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        userService.registerUser(registerRequestDTO);
+        return ResponseEntity.ok(Map.of("message", "success"));
     }
 
     @PostMapping("/login")
     public Map<String, String> login(@RequestParam String username, @RequestParam String password){
 
         Map<String, String> map = new HashMap<>();
+
+        System.out.println("username: " + username + " password: " + password);
 
         try {
             authenticationManager.authenticate(
@@ -67,7 +63,8 @@ public class JwtAuthController {
     }
 
     @PostMapping("/refresh")
-    public String refresh(){
-        return "Refreshed";
+    public String refresh(@RequestParam String refreshToken){
+        jwtUtil.printTokenInfo(refreshToken);
+        return "Refresh Endpoint.";
     }
 }

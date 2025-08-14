@@ -50,7 +50,7 @@ public class LoggingFilter extends OncePerRequestFilter {
                 String sep = "====================";
                 System.out.println(sep + " HTTP DEBUG " + sep);
                 System.out.println("Request:  " + wrappedRequest.getMethod() + " " + fullUrl);
-                System.out.println("Remote:   " + wrappedRequest.getRemoteAddr());
+                // System.out.println("Remote:   " + wrappedRequest.getRemoteAddr());
                 System.out.println("Params:   " + (paramsStr.isEmpty() ? "<none>" : paramsStr));
                 System.out.println("ReqBody:  " + requestBody);
                 System.out.println("Response: status=" + status + ", duration=" + durationMs + "ms");

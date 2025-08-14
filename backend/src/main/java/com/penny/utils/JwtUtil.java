@@ -68,6 +68,23 @@ public class JwtUtil {
     }
 
 
+    public void printTokenInfo(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key) // Your secret key
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        String username = claims.getSubject(); // Usually stored in 'sub'
+        Date issuedAt = claims.getIssuedAt();  // 'iat'
+        Date expiration = claims.getExpiration(); // 'exp'
+
+        System.out.println("Username: " + username);
+        System.out.println("Issued At: " + issuedAt);
+        System.out.println("Expiration: " + expiration);
+    }
+
+
     public enum TokenType {
         REFRESH,
         ACCESS
