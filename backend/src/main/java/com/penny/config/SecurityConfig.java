@@ -53,7 +53,8 @@ public class SecurityConfig {
                             "/h2-console", "/h2-console/**",
 
                             // Main - Endpoints we are concerned with
-                            "/api/auth/*"
+                            "/api/auth/*",
+                            "/api/chat/*"
                     ).permitAll()
                     .anyRequest().authenticated()
             )
