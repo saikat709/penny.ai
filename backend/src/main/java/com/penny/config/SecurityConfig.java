@@ -54,7 +54,8 @@ public class SecurityConfig {
 
                             // Main - Endpoints we are concerned with
                             "/api/auth/*",
-                            "/api/chat/*"
+                            "/api/chat/*",
+                            "/chat/*"
                     ).permitAll()
                     .anyRequest().authenticated()
             )

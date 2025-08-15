@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SSE Chat Stream</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 1rem;
+            background: #f4f4f4;
+        }
+        #messages {
+            background: white;
+            padding: 1rem;
+            border-radius: 5px;
+            min-height: 100px;
+            white-space: pre-wrap;
+            color: #333; /* Changed from whitesmoke for readability */
+            border: 1px solid #ccc;
+        }
+        #status {
+            color: #666;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+<h1>Chat Stream</h1>
+<div id="messages">Waiting for messages...</div>
+<div id="status">Connecting...</div>
+
+<script>
+    const url = "http://localhost:9090/api/chat/stream?prompt=tell+me+a+very+long+story+to+motivate+me+in+life";
+    const messagesDiv = document.getElementById("messages");
+    const statusDiv = document.getElementById("status");
+
+    async function fetchStreamedData() {
+        const response = await fetch(url);
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) {
+                console.log('Stream finished');
+                break;
+            }
+            console.log('Received chunk:', decoder.decode(value));
+        }
+    }
+
+    async function connectSSE() {
+        await fetchStreamedData();
+    }
+    connectSSE();
+
+    // Initial connection
+    connectSSE();
+</script>
+</body>
+</html>

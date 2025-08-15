@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat Stream Test</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 0; background: #0b1020; color: #e7ecff; }
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    h1 { font-size: 1.4rem; }
+    .chat-box { background: #111634; border: 1px solid #2a3070; border-radius: 10px; padding: 16px; height: 50vh; overflow-y: auto; }
+    .msg { margin: 10px 0; }
+    .msg.user { text-align: right; }
+    .msg .bubble { display: inline-block; padding: 10px 12px; border-radius: 10px; max-width: 75%; }
+    .msg.user .bubble { background: #2f3dbd; color: white; }
+    .msg.assistant .bubble { background: #1a214a; }
+    .controls { display: flex; gap: 8px; margin-top: 12px; }
+    input[type="text"] { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #2a3070; background: #0f1540; color: #e7ecff; }
+    button { padding: 10px 14px; border-radius: 8px; border: 1px solid #2a3070; background: #2f3dbd; color: white; cursor: pointer; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .status { font-size: 0.9rem; color: #9fb0ff; margin-top: 8px; min-height: 1.2em; }
+    a { color: #9fb0ff; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Chat Streaming Demo</h1>
+  <div class="chat-box" id="chat"></div>
+
+  <div class="controls">
+    <input id="prompt" type="text" placeholder="Type your message..." />
+    <button id="send">Send</button>
+    <button id="stop" disabled>Stop</button>
+  </div>
+  <div class="status" id="status"></div>
+
+  <p>Endpoint used: <code>/chat/stream</code> (SSE)</p>
+</div>
+
+<script>
+  const chat        = document.getElementById('chat');
+  const promptInput = document.getElementById('prompt');
+  const sendBtn     = document.getElementById('send');
+  const stopBtn     = document.getElementById('stop');
+  const statusEl    = document.getElementById('status');
+
+  let es = null;
+  let currentAssistantBubble = null;
+
+  function addMessage(role, text) {
+    const msg = document.createElement('div');
+    msg.className = `msg ${role}`;
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = text || '';
+    msg.appendChild(bubble);
+    chat.appendChild(msg);
+    chat.scrollTop = chat.scrollHeight;
+    return bubble;
+  }
+
+  function startStream(prompt) {
+    if (es) {
+      es.close();
+      es = null;
+    }
+
+    // Add user message
+    addMessage('user', prompt);
+
+    // Prepare assistant bubble for streamed content
+    currentAssistantBubble = addMessage('assistant', '');
+
+    const url = `http://localhost:9090/api/chat/stream?prompt=${encodeURIComponent(prompt)}`;
+    es = new EventSource(url);
+
+    sendBtn.disabled = true;
+    stopBtn.disabled = false;
+    statusEl.textContent = 'Connecting...';
+
+    es.onopen = () => {
+        console.log("Opened.");
+        statusEl.textContent = 'Streaming started...';
+    };
+
+    es.onmessage = (event) => {
+        console.log(event);
+        currentAssistantBubble.textContent += event.data;
+        chat.scrollTop = chat.scrollHeight;
+    };
+
+    es.onerror = (err) => {
+      statusEl.textContent = 'Stream ended or error occurred.';
+      console.log("Error.");
+      sendBtn.disabled = false;
+      stopBtn.disabled = true;
+      if (es) {
+        es.close();
+        es = null;
+      }
+    };
+  }
+
+  sendBtn.addEventListener('click', () => {
+    const prompt = promptInput.value.trim();
+    if (!prompt) return;
+    startStream(prompt);
+  });
+
+  stopBtn.addEventListener('click', () => {
+    if (es) {
+      es.close();
+      es = null;
+      statusEl.textContent = 'Stream stopped by user.';
+      sendBtn.disabled = false;
+      stopBtn.disabled = true;
+    }
+  });
+
+  // Allow To Enter to send
+  promptInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      sendBtn.click();
+    }
+  });
+</script>
+</body>
+</html>
