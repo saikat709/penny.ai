@@ -2,6 +2,8 @@
 
 A production-ready Spring Boot backend for Penny.AI, your AI-powered financial buddy. It ships with JWT authentication, user management, OpenAPI docs, an H2 persistent database (file mode), CORS, request logging, and a foundation for AI features via LangChain4j.
 
+![Backend Home](others/images/backend_home.png)
+
 
 ## Highlights
 - Modern Spring Boot 3 (Java 17)
