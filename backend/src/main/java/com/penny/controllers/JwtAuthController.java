@@ -4,6 +4,7 @@ import com.penny.dto.RegisterRequestDTO;
 import com.penny.services.UserService;
 import com.penny.utils.JwtUtil;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,7 +47,7 @@ public class JwtAuthController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
-            map.put("accessToken", jwtUtil.generateAccessToken(username));
+            map.put("access_token", jwtUtil.generateAccessToken(username));
             map.put("refreshToken", jwtUtil.generateRefreshToken(username));
         } catch (AuthenticationException e) {
             map.put("error", e.getMessage());
@@ -63,8 +64,22 @@ public class JwtAuthController {
     }
 
     @PostMapping("/refresh")
-    public String refresh(@RequestParam String refreshToken){
-        jwtUtil.printTokenInfo(refreshToken);
-        return "Refresh Endpoint.";
+    public ResponseEntity<?> refresh(@RequestParam String token){
+
+        jwtUtil.printTokenInfo(token);
+
+        if (!jwtUtil.validateJwtToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid or expired refresh token");
+        }
+
+        String username = jwtUtil.getUsernameFromToken(token);
+
+        String newAccessToken = jwtUtil.generateAccessToken(username);
+
+        return ResponseEntity.ok(Map.of(
+                "access_token", newAccessToken,
+                "message", "Access token refreshed successfully"
+        ));
     }
 }

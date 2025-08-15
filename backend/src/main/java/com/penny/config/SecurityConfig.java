@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,43 +33,35 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
+            .cors(Customizer.withDefaults())
+            .csrf(AbstractHttpConfigurer::disable)
 
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-                .addFilterBefore(new LoginFilter(), UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // allow preflight CORS requests
-                        .requestMatchers(
+            .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+            .addFilterBefore(new LoginFilter(), UsernamePasswordAuthenticationFilter.class)
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // allow preflight CORS requests
+                    .requestMatchers(
+                            // non-api... dont need
+                            "/", "/test", "/number", "/login", "/api/login/",
 
-                                "/",
-                                "/test",
-                                "/number",
-                                "/login",
-                                "/api/login/",
+                            // Swagger & OpenAPI endpoints
+                            "/swagger-ui.html",  "/swagger-ui/**",
+                            "/v3/api-docs",      "/v3/api-docs/**",
+                            "/v3/api-docs.yaml", "/webjars/**",
 
-                                // Swagger & OpenAPI endpoints
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/v3/api-docs",
-                                "/v3/api-docs/**",
-                                "/v3/api-docs.yaml",
-                                "/webjars/**",
+                            // h2
+                            "/h2-console", "/h2-console/**",
 
-                                // h2
-                                "/h2-console",
-                                "/h2-console/**",
-
-                                // Temporary
-                                "/api/auth/*"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form -> form
-                        .successHandler(myAuthenticationSuccessHandler()) // Custom success handler
-                        .permitAll()
-                );
-                // .logout(LogoutConfigurer::permitAll);
+                            // Main - Endpoints we are concerned with
+                            "/api/auth/*"
+                    ).permitAll()
+                    .anyRequest().authenticated()
+            )
+            .formLogin(form -> form
+                    .successHandler(myAuthenticationSuccessHandler()) // Custom success handler
+                    .permitAll()
+            )
+             .logout(LogoutConfigurer::permitAll);
         return http.build();
     }
 

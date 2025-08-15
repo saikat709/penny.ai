@@ -1,19 +1,20 @@
 package com.penny.controllers;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 @RestController
 public class ExampleController {
 
-    @GetMapping("/")
-    public String index() {
-        return "<div>"
-                    + "<h2>Index page, not currently implemented. <h2> <br>"
-                    + "<h3>Visit for api documentation: <a href=\"http://localhost:9090/swagger-ui.html\"> http://localhost:9090/swagger-ui.html </a> <h3>"
-                + "</div>";
+    @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
+    public String index() throws IOException {
+        ClassPathResource resource = new ClassPathResource("templates/index.html");
+        return new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
     }
 
     // Accept optional body on GET and echo it back if present; otherwise return default text

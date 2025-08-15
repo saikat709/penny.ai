@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Penny.AI Backend</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #111827;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #22d3ee;
+            --link: #60a5fa;
+            --ok: #34d399;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            background: radial-gradient(1200px 800px at 20% -10%, #172554 0, rgba(23,37,84,0) 60%),
+                        radial-gradient(1000px 700px at 120% 10%, #164e63 0, rgba(22,78,99,0) 50%),
+                        var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+        header {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1rem; padding: 20px clamp(16px, 4vw, 40px);
+            backdrop-filter: blur(6px);
+        }
+        .brand { display: flex; align-items: center; gap: .75rem; }
+        .logo { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--link)); box-shadow: 0 8px 24px rgba(34,211,238,.25); }
+        .title { font-weight: 700; letter-spacing: .3px; }
+        main { display: grid; place-items: center; padding: 20px; }
+        .card {
+            width: min(980px, 92vw);
+            background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+            border: 1px solid rgba(148,163,184,.18);
+            border-radius: 18px;
+            padding: clamp(20px, 4vw, 36px);
+            box-shadow: 0 20px 60px rgba(0,0,0,.35);
+        }
+        h1 { font-size: clamp(28px, 4vw, 40px); margin: 0 0 8px; }
+        p.lead { color: var(--muted); margin-top: 0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 22px; }
+        .panel { background: rgba(2,6,23,.6); border: 1px solid rgba(148,163,184,.18); border-radius: 14px; padding: 16px; }
+        .panel h3 { margin-top: 0; font-size: 16px; letter-spacing: .2px; color: #cbd5e1; }
+        code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+        a { color: var(--link); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .footer { color: var(--muted); font-size: 13px; }
+        .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; background: rgba(34,211,238,.12); border: 1px solid rgba(34,211,238,.35); color: #a5f3fc; font-size: 12px; }
+        .ok { color: var(--ok); }
+        ul { padding-left: 18px; margin: 8px 0; }
+        .kbd { padding: 2px 6px; border: 1px solid rgba(148,163,184,.3); border-bottom-width: 2px; border-radius: 6px; background: rgba(15,23,42,.6); }
+    </style>
+</head>
+<body>
+<header>
+    <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="title">Penny.AI Backend</div>
+    </div>
+    <div class="chip" title="Server status">● <span class="ok">Running</span></div>
+</header>
+<main>
+    <section class="card" aria-labelledby="welcome-title">
+        <h1 id="welcome-title">Welcome to Penny.AI</h1>
+        <p class="lead">This is the backend service. Use the links below to explore the API and developer console.</p>
+
+        <div class="grid">
+            <div class="panel">
+                <h3>API Docs</h3>
+                <p>Interactive OpenAPI documentation is available at:</p>
+                <p><a href="/swagger-ui.html">/swagger-ui.html</a></p>
+                <p class="footer">Powered by Springdoc OpenAPI</p>
+            </div>
+            <div class="panel">
+                <h3>Quick Test</h3>
+                <p>Try a few example endpoints:</p>
+                <ul>
+                    <li><a href="/test">GET /test</a></li>
+                    <li><a href="/number">GET /number</a></li>
+                    <li><a href="/secured">GET /secured</a> (requires login)</li>
+                </ul>
+            </div>
+            <div class="panel">
+                <h3>Auth (JWT)</h3>
+                <p>Auth endpoints:</p>
+                <ul>
+                    <li><span class="mono">POST</span> <span class="mono">/api/auth/register</span></li>
+                    <li><span class="mono">POST</span> <span class="mono">/api/auth/login</span></li>
+                    <li><span class="mono">POST</span> <span class="mono">/api/auth/refresh</span></li>
+                </ul>
+                <p class="footer">Check README for usage examples.</p>
+            </div>
+        </div>
+
+        <p class="footer" style="margin-top:22px">Tip: Press <span class="kbd">Ctrl</span>+<span class="kbd">R</span> to refresh this page after server reload.</p>
+    </section>
+</main>
+<footer style="padding: 20px clamp(16px, 4vw, 40px);" class="footer">
+    © <span id="year"></span> Penny.AI — Backend Service
+</footer>
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
