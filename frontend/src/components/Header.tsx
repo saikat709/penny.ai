@@ -21,18 +21,48 @@ const Header: React.FC<HeaderProps> = ({
   
   useEffect(() => {
     if (location.hash) {
-        const element = document.getElementById(location.hash.substring(1)); // Remove '#'
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
+      const element = document.getElementById(location.hash.substring(1)); // Remove '#'
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   }, [location]);
+
+  // Progress bar state
+  const [scrollProgress, setScrollProgress] = React.useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      setScrollProgress(progress);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   
   return (
     <>
+    {/* Gradient Progress Bar */}
+    <div
+      style={{
+        width: `${scrollProgress}%`,
+        height: '5px',
+        background: 'linear-gradient(90deg, #a78bfa 0%, #ec4899 50%, #ef4444 100%)',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        zIndex: 100,
+        transition: 'width 0.2s ease',
+        borderRadius: '0 8px 8px 0',
+        boxShadow: '0 2px 8px 0 rgba(236,72,153,0.2)',
+      }}
+      aria-hidden="true"
+    />
     <header
-        className="mt-4 sm:mt-6 w-[90%] max-w-4xl px-6 py-3 rounded-full 
+        className="mt-0 w-[100%] px-6 py-3 
             bg-white/10 backdrop-blur-md shadow-md border border-white/20 
             flex items-center justify-between 
             transition-shadow duration-300 
@@ -165,3 +195,4 @@ const Header: React.FC<HeaderProps> = ({
 };
 
 export default Header;
+  

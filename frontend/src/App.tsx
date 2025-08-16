@@ -8,6 +8,7 @@ import { WebSocketProvider } from "./hooks/WebSocketContext";
 import { AuthContextProvider } from "./hooks/AuthContext";
 import LoginqPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import ChatScreen from "./pages/ChatScreen";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "chat",
+        element: <ChatScreen />,
       },
       {
         path: "auth",
