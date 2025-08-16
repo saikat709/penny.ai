@@ -20,7 +20,7 @@ public class GeminiController {
         return geminiService.askGemini(message);
     }
 
-    @CrossOrigin(origins = "http://127.0.0.1:44777")
+    @CrossOrigin(origins = {"http://127.0.0.1:5173", "http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:3000"})
     @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> streamChat(@RequestParam String prompt) {
 
