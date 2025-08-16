@@ -1,4 +1,4 @@
-package com.penny.services;
+package com.penny.gemini;
 
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.StreamingResponseHandler;
@@ -7,6 +7,7 @@ import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.model.googleai.GoogleAiGeminiStreamingChatModel;
 import dev.langchain4j.model.output.Response;
+import dev.langchain4j.service.AiServices;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import dev.langchain4j.data.message.AiMessage;
@@ -19,27 +20,42 @@ public class GeminiService {
 
     private ChatLanguageModel model;
     private StreamingChatLanguageModel streamModel;
+    public PennyAiAssistant pennyAiAssistant;
+    private final String MODEL_NAME = "gemini-1.5-flash";
 
-    private final String MODEL_NAME = "gemini-2.0-flash";
+    public GeminiService(@Value("${gemini.api.key:${GEMINI_API_KEY:}}") String apiKey, ExpenseTools expenseTools) {
 
-    public GeminiService(
-            @Value("${gemini.api.key:${GEMINI_API_KEY:}}"
-            ) String apiKey) {
-        if (apiKey != null && !apiKey.isBlank()) {
-            this.model = GoogleAiGeminiChatModel.builder()
-                    .apiKey(apiKey)
-                    .modelName(MODEL_NAME)
-                    .temperature(0.7)
-                    .build();
-
-            this.streamModel = GoogleAiGeminiStreamingChatModel.builder()
-                    .apiKey(apiKey)
-                    .modelName(MODEL_NAME)
-                    .temperature(0.7)
-                    .build();
-        } else {
+        if (apiKey == null || apiKey.isBlank()) {
             System.out.println("ERROR: Api key is blank.");
+            return;
         }
+
+        this.model = GoogleAiGeminiChatModel.builder()
+                .apiKey(apiKey)
+                .modelName(MODEL_NAME)
+                .temperature(0.7)
+                .build();
+
+        this.streamModel = GoogleAiGeminiStreamingChatModel.builder()
+                .apiKey(apiKey)
+                .modelName(MODEL_NAME)
+                .temperature(0.7)
+                .build();
+
+        pennyAiAssistant = AiServices.builder(PennyAiAssistant.class)
+                .chatLanguageModel(model)
+                // .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
+                // .contentRetriever(retriever)
+                 .tools(expenseTools)
+                .build();
+    }
+
+
+    public String askPennyAssistant(String prompt){
+        if ( pennyAiAssistant == null ) {
+            throw new IllegalStateException("Error on ask PennyAI method.");
+        }
+        return pennyAiAssistant.financeTalk(prompt);
     }
 
     public String askGemini(String prompt) {
