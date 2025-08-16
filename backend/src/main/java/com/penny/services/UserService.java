@@ -20,12 +20,14 @@ public class UserService {
         UserEntity user = new UserEntity();
         user.setEmail(registerRequestDTO.getEmail());
         // If username is not provided in DTO, default to email prefix or email itself
+        /**
         String email = registerRequestDTO.getEmail();
         if (email != null && email.contains("@")) {
             user.setUsername(email.substring(0, email.indexOf('@')));
         } else {
             user.setUsername(email);
         }
+         */
         user.setPasswordHash(passwordEncoder.encode(registerRequestDTO.getPassword()));
         userRepository.save(user);
     }

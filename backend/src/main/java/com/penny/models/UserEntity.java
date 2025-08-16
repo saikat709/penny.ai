@@ -32,10 +32,6 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50, unique = true)
-    @Size(max = 50)
-    private String username;
-
     @Column(nullable = false, length = 100, unique = true)
     @Email
     @Size(max = 100)

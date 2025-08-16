@@ -40,6 +40,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+        System.out.println("\n=================== ERROR ================");
+        System.out.println(ex.getLocalizedMessage());
+        System.out.println("===========================================\n");
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
