@@ -46,6 +46,16 @@ interface AuthContextType {
   parking: ParkingInfoType | null;
 }
 
+
+interface ThemeContextType {
+  theme: string;
+  toggleTheme: () => void;
+}
+
+interface ThemeProviderProps {
+  children: ReactNode
+};
+
 export type { 
   WSMessage, 
   WebSocketContextType, 
@@ -53,5 +63,7 @@ export type {
   SocketTestData, 
   SocketParkingStatus,
   AuthContextType,
-  ParkingInfoType
+  ParkingInfoType,
+  ThemeContextType,
+  ThemeProviderProps
 };

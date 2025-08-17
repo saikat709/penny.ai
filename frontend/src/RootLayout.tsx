@@ -11,7 +11,7 @@ const RootLayout = () => {
                             bg-gradient-to-br from-gray-900 to-black"
                             >
                 <Header />
-                <div className="mx-auto w-full h-full md:w-[80vw">
+                <div className="mx-auto w-full h-full">
                     <Outlet />
                 </div>
                 <div className="flex-1"></div>
