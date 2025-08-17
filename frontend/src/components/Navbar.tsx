@@ -8,9 +8,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const themeContext = useTheme();
-  const theme = themeContext?.theme ?? 'light';
-  const toggleTheme = themeContext?.toggleTheme ?? (() => {});
+  const { theme, toggleTheme } = useTheme();
   const { isAuthenticated, user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();

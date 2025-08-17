@@ -73,7 +73,7 @@ export default function RegisterPage() {
       }
       
       // Save remember me preference
-  localStorage.setItem('penny_remember_me', rememberMe.toString());
+      localStorage.setItem('penny_remember_me', rememberMe.toString());
       
       setSuccessMessage('Registration successful! Please check your email to confirm your account.');
       
@@ -136,7 +136,7 @@ export default function RegisterPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center mt-8">
             <ShieldCheckIcon className="h-8 w-8 mr-2" />
             <span className="text-2xl font-bold">Penny</span>
           </Link>

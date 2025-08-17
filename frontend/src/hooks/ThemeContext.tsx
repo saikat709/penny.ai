@@ -25,6 +25,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     localStorage.setItem('color-theme', newTheme);
+    console.log(`Theme changed to: ${newTheme}`);
   };
 
   useEffect(() => {

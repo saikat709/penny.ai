@@ -3,7 +3,7 @@ import About      from "./pages/About";
 import RootLayout     from "./RootLayout";
 import Page404    from "./pages/Page404";
 import LoginqPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage____prev";
+import RegisterPage from "./pages/RegisterPage";
 import ChatScreen from "./pages/ChatScreen";
 import LandingPage from "./pages/LandingPage";
 import ProfileDashboard from "./pages/ProfileDashboard";
