@@ -4,7 +4,7 @@ import { PhoneIcon, EyeSlashIcon, ArrowPathIcon, BoltIcon } from '@heroicons/rea
 const steps = [
   {
     id: 1,
-    name: 'Call Cover Hotline',
+  name: 'Call Penny Hotline',
     description: 'Call our emergency hotline and put your phone on speaker mode so the conversation can be heard.',
     icon: PhoneIcon,
   },
@@ -17,7 +17,7 @@ const steps = [
   {
     id: 3,
     name: 'Background Analysis',
-    description: 'While you talk, Cover identifies location details, emergency type, and background noises (gunshots, breaking glass, fire alarms).',
+  description: 'While you talk, Penny identifies location details, emergency type, and background noises (gunshots, breaking glass, fire alarms).',
     icon: ArrowPathIcon,
   },
   {
@@ -40,7 +40,7 @@ export default function HowItWorks() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            How Cover Works
+            How Penny Works
           </motion.h2>
           <motion.p 
             className="mt-4 max-w-3xl mx-auto text-xl text-gray-600 dark:text-gray-300"
@@ -49,7 +49,7 @@ export default function HowItWorks() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Our undercover AI roleplays natural conversations to extract emergency information when direct 911 calls aren't possible
+            Our underpenny AI roleplays natural conversations to extract emergency information when direct 911 calls aren't possible
           </motion.p>
         </div>
 
@@ -90,9 +90,9 @@ export default function HowItWorks() {
             <div className="px-6 py-8 sm:p-10 sm:pb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div>
-                  <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Why Choose Cover?</h3>
+                  <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Why Choose Penny?</h3>
                   <p className="mt-4 text-gray-600 dark:text-gray-300">
-                    Cover's roleplaying AI creates natural, realistic conversations for situations where a direct 911 call could put you in danger:
+                    Penny's roleplaying AI creates natural, realistic conversations for situations where a direct 911 call could put you in danger:
                   </p>
                   <ul className="mt-6 space-y-4 text-gray-600 dark:text-gray-300">
                     <li className="flex">
@@ -124,7 +124,7 @@ export default function HowItWorks() {
                 <div className="bg-white dark:bg-dark-300 p-6 rounded-xl shadow-md">
                   <h4 className="text-lg font-medium text-gray-900 dark:text-white">Conversation Analysis</h4>
                   <p className="mt-2 text-gray-600 dark:text-gray-300">
-                    While roleplaying, Cover extracts:
+                    While roleplaying, Penny extracts:
                   </p>
                   <ul className="mt-4 space-y-2 text-sm text-gray-600 dark:text-gray-300">
                     <li className="flex items-center">

@@ -43,7 +43,8 @@ interface AuthContextType {
   completeParking: (ending_time: string, fare?: number ) => void;
   isLoggedIn?: boolean;
   isLoading?: boolean;
-  parking: ParkingInfoType | null;
+  user: ParkingInfoType | null;
+  isAuthenticated?: boolean;
 }
 
 

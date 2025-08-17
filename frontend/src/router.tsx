@@ -3,9 +3,10 @@ import About      from "./pages/About";
 import RootLayout     from "./RootLayout";
 import Page404    from "./pages/Page404";
 import LoginqPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import RegisterPage from "./pages/RegisterPage____prev";
 import ChatScreen from "./pages/ChatScreen";
 import LandingPage from "./pages/LandingPage";
+import ProfileDashboard from "./pages/ProfileDashboard";
 
 
 const router = createBrowserRouter([
@@ -31,17 +32,16 @@ const router = createBrowserRouter([
         element: <ChatScreen />,
       },
       {
-        path: "auth",
-        children: [
-          {
-            path: "login",
-            element: <LoginqPage />,
-          },
-         {
-            path: "register",
-            element: <RegisterPage />,
-          },
-        ]
+        path: "login",
+        element: <LoginqPage />,
+      },
+      {
+        path: 'profile',
+        element: <ProfileDashboard />,
+      },
+      {
+        path: "register",
+        element: <RegisterPage />,
       },
       {
         path: "*",

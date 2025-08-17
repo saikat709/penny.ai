@@ -14,7 +14,7 @@ export const AuthContextProvider = ({
   children,
 }: { children: ReactNode }) => {
 
-    const [parking, setParking] = useState<ParkingInfoType | null>(null);
+    const [user, setUser] = useState<ParkingInfoType | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [errorCallback, setErrorCallback] = useState<((msg: string) => void) | null>(null);
@@ -25,7 +25,7 @@ export const AuthContextProvider = ({
           if (localParkingInfo) {
             const parkingData = await JSON.parse(localParkingInfo);
             const parkingParsed: ParkingInfoType = parkingData.parkingData as ParkingInfoType;
-            setParking(parkingParsed);
+            setUser(parkingParsed);
             setIsLoggedIn(true);
           } else {
             setIsLoggedIn(false);
@@ -42,7 +42,7 @@ export const AuthContextProvider = ({
 
           if ( res.status === 200 ) {
             const parkingData = res.data as ParkingInfoType;
-            setParking(parkingData);
+            setUser(parkingData);
             console.log("Login successful, parking data:", parkingData);
             localStorage.setItem("parkingInfo", JSON.stringify({
               "parkingData": parkingData
@@ -65,14 +65,14 @@ export const AuthContextProvider = ({
     };
 
     const logout = () => {
-        setParking(null);
+        setUser(null);
         localStorage.removeItem("parkingInfo");
         setIsLoggedIn(false);
         console.log("User logged out");
     };
 
     const completeParking = (endTime: string, fare?: number) => {
-      setParking(prev => {
+      setUser(prev => {
         if (prev) {
           return {
             ...prev,
@@ -85,13 +85,13 @@ export const AuthContextProvider = ({
         return null;
   
       });
-      localStorage.setItem("parkingInfo", JSON.stringify(parking));
-      console.log("Parking completed, updated parking info:", parking);
+      localStorage.setItem("parkingInfo", JSON.stringify(user));
+      console.log("Parking completed, updated parking info:", user);
     }
 
-
+    const isAuthenticated = isLoggedIn;
     return (
-        <AuthContext.Provider value={{ login, parking, isLoggedIn, logout, isLoading, onError, completeParking }}>
+        <AuthContext.Provider value={{ login, user, isLoggedIn, logout, isLoading, onError, completeParking, isAuthenticated }}>
         {children}
         </AuthContext.Provider>
     );

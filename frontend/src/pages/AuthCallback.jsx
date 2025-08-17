@@ -15,7 +15,7 @@ export default function AuthCallback() {
   const saveSessionToLocalStorage = (session) => {
     if (session) {
       console.log('Saving session info to localStorage');
-      localStorage.setItem('cover_session', JSON.stringify({
+  localStorage.setItem('penny_session', JSON.stringify({
         expires_at: session.expires_at,
         user_id: session.user.id
       }));
@@ -84,7 +84,7 @@ export default function AuthCallback() {
             }, 3000);
           } else {
             // Check if we have a session in localStorage
-            const savedSession = localStorage.getItem('cover_session');
+            const savedSession = localStorage.getItem('penny_session');
             if (savedSession) {
               setDebugInfo(prev => `${prev}\nFound saved session in localStorage. Attempting to refresh...`);
               

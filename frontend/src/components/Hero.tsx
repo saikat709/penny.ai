@@ -39,7 +39,7 @@ export default function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                Cover discreetly connects you to emergency services through AI roleplaying. Call our hotline, put it on speaker, and our AI acts as a pizza place or other service to safely extract critical information when a direct 911 call could put you at risk.
+                Penny discreetly connects you to emergency services through AI roleplaying. Call our hotline, put it on speaker, and our AI acts as a pizza place or other service to safely extract critical information when a direct 911 call could put you at risk.
               </motion.p>
               
               <motion.div 

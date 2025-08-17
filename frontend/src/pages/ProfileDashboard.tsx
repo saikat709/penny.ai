@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import supabase from '../lib/supabase';
+import useAuth from '../hooks/useAuth';
+// import supabase from '../lib/supabase';
+
 import { 
   UserIcon, 
   BriefcaseIcon, 
@@ -48,7 +49,7 @@ export default function ProfileDashboard() {
   
   // Check for session in localStorage before redirecting
   const checkLocalSession = () => {
-    const savedSession = localStorage.getItem('cover_session');
+  const savedSession = localStorage.getItem('penny_session');
     const supabaseToken = localStorage.getItem('supabase.auth.token');
     return !!(savedSession || supabaseToken);
   };
@@ -142,22 +143,22 @@ export default function ProfileDashboard() {
   
   // Create a new profile if one doesn't exist
   const createNewProfile = async () => {
-    try {
-      const { error } = await supabase
-        .from('profiles')
-        .insert({
-          user_id: user.id,
-          profile_data: formData,
-          created_at: new Date(),
-          updated_at: new Date()
-        });
+    // try {
+    //   const { error } = await supabase
+    //     .from('profiles')
+    //     .insert({
+    //       user_id: user.id,
+    //       profile_data: formData,
+    //       created_at: new Date(),
+    //       updated_at: new Date()
+    //     });
       
-      if (error) throw error;
-      console.log('New profile created successfully');
-    } catch (error) {
-      console.error('Error creating profile:', error);
-      setSaveError('Failed to create your profile');
-    }
+    //   if (error) throw error;
+    //   console.log('New profile created successfully');
+    // } catch (error) {
+    //   console.error('Error creating profile:', error);
+    //   setSaveError('Failed to create your profile');
+    // }
   };
   
   // Show loading state while checking auth

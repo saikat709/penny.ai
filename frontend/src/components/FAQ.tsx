@@ -5,32 +5,32 @@ import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 const faqs = [
   {
-    question: "How does Cover work?",
-    answer: "Cover is an AI-powered emergency hotline that roleplays as everyday services. Simply call our hotline, put your phone on speaker, and our AI will pretend to be a pizza place, tech support, or another service. Through this natural conversation, Cover extracts critical information about your emergency without alerting others around you. Your location, the nature of the emergency, and even background noises are analyzed and simultaneously transmitted to 911 dispatchers."
+  question: "How does Penny work?",
+  answer: "Penny is an AI-powered emergency hotline that roleplays as everyday services. Simply call our hotline, put your phone on speaker, and our AI will pretend to be a pizza place, tech support, or another service. Through this natural conversation, Penny extracts critical information about your emergency without alerting others around you. Your location, the nature of the emergency, and even background noises are analyzed and simultaneously transmitted to 911 dispatchers."
   },
   {
-    question: "When would I use Cover instead of calling 911 directly?",
-    answer: "Use Cover when making a direct 911 call might escalate the danger. For example, during a home invasion, domestic violence situation, kidnapping, or active shooter event, the perpetrator might react violently if they hear you calling emergency services. Cover's roleplaying creates a believable cover story while still getting you the help you need."
+  question: "When would I use Penny instead of calling 911 directly?",
+  answer: "Use Penny when making a direct 911 call might escalate the danger. For example, during a home invasion, domestic violence situation, kidnapping, or active shooter event, the perpetrator might react violently if they hear you calling emergency services. Penny's roleplaying creates a believable Penny story while still getting you the help you need."
   },
   {
     question: "Is there an app I need to download?",
-    answer: "No, Cover doesn't require an app. Simply call our hotline number from any phone and put it on speaker. The roleplaying conversation begins immediately, with no setup required. This ensures that in an emergency, you can access help instantly without needing to install anything beforehand."
+  answer: "No, Penny doesn't require an app. Simply call our hotline number from any phone and put it on speaker. The roleplaying conversation begins immediately, with no setup required. This ensures that in an emergency, you can access help instantly without needing to install anything beforehand."
   },
   {
-    question: "How does Cover extract emergency information through roleplaying?",
-    answer: "Cover uses advanced conversational AI to lead natural-sounding discussions. When you call, our AI might ask things like 'What's your delivery address?' or 'Can you describe the issue you're having?' These seemingly normal questions help gather your location and emergency details. The AI also analyzes voice stress patterns and background sounds, all while maintaining its roleplay character."
+  question: "How does Penny extract emergency information through roleplaying?",
+  answer: "Penny uses advanced conversational AI to lead natural-sounding discussions. When you call, our AI might ask things like 'What's your delivery address?' or 'Can you describe the issue you're having?' These seemingly normal questions help gather your location and emergency details. The AI also analyzes voice stress patterns and background sounds, all while maintaining its roleplay character."
   },
   {
-    question: "What types of personas can Cover roleplay as?",
-    answer: "Cover can instantly adopt several convincing personas, including: a pizza delivery service, a technical support agent, your boss or colleague, a friend checking in, a ride-sharing driver, or a customer service representative. Each persona uses natural language patterns appropriate to their role while strategically gathering emergency information."
+  question: "What types of personas can Penny roleplay as?",
+  answer: "Penny can instantly adopt several convincing personas, including: a pizza delivery service, a technical support agent, your boss or colleague, a friend checking in, a ride-sharing driver, or a customer service representative. Each persona uses natural language patterns appropriate to their role while strategically gathering emergency information."
   },
   {
-    question: "How accurate is Cover's emergency detection during roleplaying?",
-    answer: "Cover maintains a 99.7% accuracy rate while roleplaying. Our system is trained to interpret subtle cues in conversation, background noises, and voice stress patterns, all without breaking character. The AI can detect signs of various emergencies including violence, medical issues, fires, and intrusions, transmitting this data to emergency services."
+  question: "How accurate is Penny's emergency detection during roleplaying?",
+  answer: "Penny maintains a 99.7% accuracy rate while roleplaying. Our system is trained to interpret subtle cues in conversation, background noises, and voice stress patterns, all without breaking character. The AI can detect signs of various emergencies including violence, medical issues, fires, and intrusions, transmitting this data to emergency services."
   },
   {
-    question: "Is my conversation with Cover secure even while it's roleplaying?",
-    answer: "Yes, all Cover conversations are protected with end-to-end encryption. While the emergency-relevant details are transmitted to 911 dispatchers, the full conversation remains private. After your emergency is resolved, conversation data is securely deleted according to strict privacy protocols."
+  question: "Is my conversation with Penny secure even while it's roleplaying?",
+  answer: "Yes, all Penny conversations are protected with end-to-end encryption. While the emergency-relevant details are transmitted to 911 dispatchers, the full conversation remains private. After your emergency is resolved, conversation data is securely deleted according to strict privacy protocols."
   },
 ];
 
@@ -55,7 +55,7 @@ export default function FAQ() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Everything you need to know about Cover's roleplaying emergency service
+            Everything you need to know about Penny's roleplaying emergency service
           </motion.p>
         </div>
 
@@ -110,7 +110,7 @@ export default function FAQ() {
             Have questions about our roleplaying emergency service?
           </p>
           <div className="mt-6">
-            <a href="mailto:contact@coverai.com" className="btn btn-primary">
+            <a href="mailto:contact@pennyai.com" className="btn btn-primary">
               Contact Us
             </a>
           </div>

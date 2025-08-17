@@ -55,7 +55,7 @@ export default function Footer() {
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8 xl:col-span-1">
             <Link to="/" className="flex items-center">
-              <span className="text-3xl font-bold text-primary-600 dark:text-primary-400">Cover</span>
+              <span className="text-3xl font-bold text-primary-600 dark:text-primary-400">Penny</span>
             </Link>
             <p className="text-gray-600 dark:text-gray-400 text-base">
               AI-powered emergency roleplaying service that gets you help when direct 911 calls are too risky.
@@ -106,7 +106,7 @@ export default function Footer() {
         </div>
         <div className="mt-12 border-t border-gray-200 dark:border-gray-700 pt-8">
           <p className="text-base text-gray-500 dark:text-gray-400 text-center">
-            &copy; {currentYear} Cover - AI Emergency Roleplaying Service. All rights reserved.
+            &copy; {currentYear} Penny.AI - Your financial buddy. All rights reserved.
           </p>
         </div>
       </div>

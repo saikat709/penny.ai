@@ -17,12 +17,12 @@ const features = [
   },
   {
     name: 'Contextual Intelligence',
-    description: 'Cover recognizes urgency in your voice and conversation, identifying background sounds like breaking glass, gunshots, or alarms.',
+  description: 'Penny recognizes urgency in your voice and conversation, identifying background sounds like breaking glass, gunshots, or alarms.',
     icon: MicrophoneIcon,
   },
   {
     name: 'Instant 911 Integration',
-    description: 'While maintaining the roleplay cover, all emergency details are simultaneously relayed to 911 dispatchers in real-time.',
+  description: 'While maintaining the roleplay Penny, all emergency details are simultaneously relayed to 911 dispatchers in real-time.',
     icon: ClockIcon,
   },
   {
@@ -37,7 +37,7 @@ const features = [
   },
   {
     name: '24/7 Emergency Access',
-    description: "One simple hotline number connects you to Cover's roleplaying AI anytime, anywhere, with no app installation required.",
+  description: "One simple hotline number connects you to Penny's roleplaying AI anytime, anywhere, with no app installation required.",
     icon: ShieldCheckIcon,
   },
 ];
@@ -54,7 +54,7 @@ export default function Features() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            Undercover Emergency Technology
+            Underpenny Emergency Technology
           </motion.h2>
           <motion.p 
             className="mt-4 max-w-3xl mx-auto text-xl text-gray-600 dark:text-gray-300"
@@ -110,7 +110,7 @@ export default function Features() {
                   Experience the emergency roleplay
                 </h3>
                 <p className="mt-4 max-w-3xl text-lg text-primary-100">
-                  Try our interactive demo to see how Cover disguises emergency calls as everyday conversations. See how the AI maintains a natural roleplay while detecting emergencies.
+                  Try our interactive demo to see how Penny disguises emergency calls as everyday conversations. See how the AI maintains a natural roleplay while detecting emergencies.
                 </p>
               </div>
               <div className="mt-12 sm:mt-16 lg:mt-0 lg:ml-8 lg:flex-shrink-0">

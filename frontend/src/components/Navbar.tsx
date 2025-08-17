@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useThemeContext } from '../context/ThemeContext';
-import { useAuth } from '../context/AuthContext';
+
+import useTheme from '../hooks/useTheme';
+import useAuth from '../hooks/useAuth';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const { theme, toggleTheme } = useThemeContext();
+  const themeContext = useTheme();
+  const theme = themeContext?.theme ?? 'light';
+  const toggleTheme = themeContext?.toggleTheme ?? (() => {});
   const { isAuthenticated, user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();

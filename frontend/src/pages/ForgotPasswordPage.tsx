@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
         >
           <Link to="/" className="flex items-center">
             <ShieldCheckIcon className="h-8 w-8 mr-2" />
-            <span className="text-2xl font-bold">Cover</span>
+            <span className="text-2xl font-bold">Penny</span>
           </Link>
         </motion.div>
         
@@ -88,7 +88,7 @@ export default function ForgotPasswordPage() {
         </motion.div>
         
         <div className="text-primary-200 text-sm">
-          &copy; {new Date().getFullYear()} Cover AI. All rights reserved.
+          &copy; {new Date().getFullYear()} Penny.AI. All rights reserved.
         </div>
       </div>
       
@@ -104,7 +104,7 @@ export default function ForgotPasswordPage() {
           <div className="md:hidden flex justify-center mb-8">
             <Link to="/" className="flex items-center">
               <ShieldCheckIcon className="h-8 w-8 mr-2 text-primary-600 dark:text-primary-400" />
-              <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">Cover</span>
+              <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">Penny</span>
             </Link>
           </div>
           
