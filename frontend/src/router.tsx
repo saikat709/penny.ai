@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ChatScreen from "./pages/ChatScreen";
 import LandingPage from "./pages/LandingPage";
 import ProfileDashboard from "./pages/ProfileDashboard";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 
 const router = createBrowserRouter([
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <RegisterPage />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPasswordPage />,
       },
       {
         path: "*",

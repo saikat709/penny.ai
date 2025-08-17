@@ -4,26 +4,26 @@ import { PhoneIcon, EyeSlashIcon, ArrowPathIcon, BoltIcon } from '@heroicons/rea
 const steps = [
   {
     id: 1,
-  name: 'Call Penny Hotline',
-    description: 'Call our emergency hotline and put your phone on speaker mode so the conversation can be heard.',
+    name: 'Connect Your Accounts',
+    description: 'Securely link your bank accounts and financial databases to Penny AI for personalized insights.',
     icon: PhoneIcon,
   },
   {
     id: 2,
-    name: 'Natural Conversation',
-    description: 'Our AI roleplays as a pizza place, boss, friend, or another persona, leading a natural conversation to gather key information.',
+    name: 'Ask Any Financial Question',
+    description: 'Chat naturally with Penny AI to get answers about balances, transactions, budgeting, and investments.',
     icon: EyeSlashIcon,
   },
   {
     id: 3,
-    name: 'Background Analysis',
-  description: 'While you talk, Penny identifies location details, emergency type, and background noises (gunshots, breaking glass, fire alarms).',
+    name: 'Get Instant Insights',
+    description: 'Receive real-time analysis, spending breakdowns, and saving suggestions tailored to your goals.',
     icon: ArrowPathIcon,
   },
   {
     id: 4,
-    name: 'Real-time 911 Relay',
-    description: 'Critical information is instantly transmitted to 911 dispatchers who send appropriate help to your location.',
+    name: 'Consult & Optimize',
+    description: 'Get actionable advice and financial consulting to optimize your finances and plan for the future.',
     icon: BoltIcon,
   },
 ];
@@ -40,7 +40,7 @@ export default function HowItWorks() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            How Penny Works
+            How Penny AI Works
           </motion.h2>
           <motion.p 
             className="mt-4 max-w-3xl mx-auto text-xl text-gray-600 dark:text-gray-300"
@@ -49,7 +49,7 @@ export default function HowItWorks() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Our underpenny AI roleplays natural conversations to extract emergency information when direct 911 calls aren't possible
+            Penny AI connects to your financial accounts, answers your questions, and provides instant, actionable insights to help you manage and optimize your finances.
           </motion.p>
         </div>
 
@@ -90,58 +90,58 @@ export default function HowItWorks() {
             <div className="px-6 py-8 sm:p-10 sm:pb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div>
-                  <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Why Choose Penny?</h3>
+                  <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Why Choose Penny AI?</h3>
                   <p className="mt-4 text-gray-600 dark:text-gray-300">
-                    Penny's roleplaying AI creates natural, realistic conversations for situations where a direct 911 call could put you in danger:
+                    Penny AI empowers you to take control of your finances with smart, secure, and personalized assistance:
                   </p>
                   <ul className="mt-6 space-y-4 text-gray-600 dark:text-gray-300">
                     <li className="flex">
                       <svg className="flex-shrink-0 h-6 w-6 text-primary-600 dark:text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="ml-3">Domestic violence situations</span>
+                      <span className="ml-3">Instant account balance and transaction info</span>
                     </li>
                     <li className="flex">
                       <svg className="flex-shrink-0 h-6 w-6 text-primary-600 dark:text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="ml-3">Kidnapping or hostage scenarios</span>
+                      <span className="ml-3">Personalized budgeting and saving tips</span>
                     </li>
                     <li className="flex">
                       <svg className="flex-shrink-0 h-6 w-6 text-primary-600 dark:text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="ml-3">Home invasions</span>
+                      <span className="ml-3">Investment insights and financial consulting</span>
                     </li>
                     <li className="flex">
                       <svg className="flex-shrink-0 h-6 w-6 text-primary-600 dark:text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="ml-3">Public active shooter events</span>
+                      <span className="ml-3">Secure, private, and always available</span>
                     </li>
                   </ul>
                 </div>
                 <div className="bg-white dark:bg-dark-300 p-6 rounded-xl shadow-md">
-                  <h4 className="text-lg font-medium text-gray-900 dark:text-white">Conversation Analysis</h4>
+                  <h4 className="text-lg font-medium text-gray-900 dark:text-white">Financial Analysis</h4>
                   <p className="mt-2 text-gray-600 dark:text-gray-300">
-                    While roleplaying, Penny extracts:
+                    Penny AI analyzes your financial data to provide:
                   </p>
                   <ul className="mt-4 space-y-2 text-sm text-gray-600 dark:text-gray-300">
                     <li className="flex items-center">
                       <div className="h-2 w-2 rounded-full bg-primary-600 dark:bg-primary-400 mr-2"></div>
-                      <span>Your location from casual mentions</span>
+                      <span>Spending breakdowns and trends</span>
                     </li>
                     <li className="flex items-center">
                       <div className="h-2 w-2 rounded-full bg-primary-600 dark:bg-primary-400 mr-2"></div>
-                      <span>Danger clues from your word choice</span>
+                      <span>Personalized saving recommendations</span>
                     </li>
                     <li className="flex items-center">
                       <div className="h-2 w-2 rounded-full bg-primary-600 dark:bg-primary-400 mr-2"></div>
-                      <span>Emergency type from background sounds</span>
+                      <span>Investment and portfolio insights</span>
                     </li>
                     <li className="flex items-center">
                       <div className="h-2 w-2 rounded-full bg-primary-600 dark:bg-primary-400 mr-2"></div>
-                      <span>Threat severity from voice analysis</span>
+                      <span>Alerts for unusual account activity</span>
                     </li>
                   </ul>
                   <div className="mt-6 flex items-center">
@@ -149,7 +149,7 @@ export default function HowItWorks() {
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                     <p className="ml-2 text-sm text-gray-600 dark:text-gray-300">
-                      <span className="font-semibold">99.7% accuracy</span> in our emergency detection system
+                      <span className="font-semibold">99.7% accuracy</span> in financial data analysis
                     </p>
                   </div>
                 </div>

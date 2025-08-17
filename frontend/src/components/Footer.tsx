@@ -58,7 +58,7 @@ export default function Footer() {
               <span className="text-3xl font-bold text-primary-600 dark:text-primary-400">Penny</span>
             </Link>
             <p className="text-gray-600 dark:text-gray-400 text-base">
-              AI-powered emergency roleplaying service that gets you help when direct 911 calls are too risky.
+              AI-powered financial assistant that helps you manage your money, get instant insights, and receive secure financial consulting.
             </p>
             <div className="flex space-x-6">
               {navigation.social.map((item) => (
@@ -83,21 +83,21 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-base font-medium text-gray-900 dark:text-white">Emergency Resources</h3>
+              <h3 className="text-base font-medium text-gray-900 dark:text-white">Financial Resources</h3>
               <ul className="mt-4 space-y-4">
                 <li>
-                  <a href="tel:911" className="text-base text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                    Direct 911 (If Safe)
+                  <a href="#" className="text-base text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                    Financial Consulting
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-base text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                    Safety Planning
+                    Budgeting Tools
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-base text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                    Roleplay Scenarios
+                    Security & Privacy Tips
                   </a>
                 </li>
               </ul>

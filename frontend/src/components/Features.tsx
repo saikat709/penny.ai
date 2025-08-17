@@ -11,33 +11,33 @@ import {
 
 const features = [
   {
-    name: 'Natural Roleplaying',
-    description: 'Our AI smoothly roleplays as everyday services — a pizza place, tech support, or your boss — creating believable conversations that extract critical information.',
-    icon: EyeSlashIcon,
-  },
-  {
-    name: 'Contextual Intelligence',
-  description: 'Penny recognizes urgency in your voice and conversation, identifying background sounds like breaking glass, gunshots, or alarms.',
-    icon: MicrophoneIcon,
-  },
-  {
-    name: 'Instant 911 Integration',
-  description: 'While maintaining the roleplay Penny, all emergency details are simultaneously relayed to 911 dispatchers in real-time.',
-    icon: ClockIcon,
-  },
-  {
-    name: 'Private & Secure',
-    description: 'End-to-end encryption protects your call, with emergency data only shared with official response services.',
+    name: 'Secure Account Linking',
+    description: 'Connect your bank accounts and financial databases with industry-leading security and privacy.',
     icon: LockClosedIcon,
   },
   {
-    name: 'Multiple Conversation Styles',
-    description: 'Choose from various realistic personas that can adapt their conversation style to your specific emergency scenario.',
+    name: 'Instant Financial Insights',
+    description: 'Get real-time account balances, transaction history, and spending breakdowns at your fingertips.',
+    icon: ClockIcon,
+  },
+  {
+    name: 'Personalized Consulting',
+    description: 'Receive tailored financial advice and recommendations based on your unique goals and habits.',
     icon: UserGroupIcon,
   },
   {
-    name: '24/7 Emergency Access',
-  description: "One simple hotline number connects you to Penny's roleplaying AI anytime, anywhere, with no app installation required.",
+    name: 'Smart Budgeting Tools',
+    description: 'Track your expenses, set budgets, and get actionable tips to save more every month.',
+    icon: MicrophoneIcon,
+  },
+  {
+    name: 'Investment Insights',
+    description: 'Access market trends, portfolio analysis, and general investment guidance to grow your wealth.',
+    icon: EyeSlashIcon,
+  },
+  {
+    name: '24/7 Private Support',
+    description: 'Penny AI is always available to answer your financial questions—securely and privately.',
     icon: ShieldCheckIcon,
   },
 ];
@@ -54,7 +54,7 @@ export default function Features() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            Underpenny Emergency Technology
+            Penny AI Financial Features
           </motion.h2>
           <motion.p 
             className="mt-4 max-w-3xl mx-auto text-xl text-gray-600 dark:text-gray-300"
@@ -63,7 +63,7 @@ export default function Features() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            AI-powered roleplaying designed to help you get emergency assistance without alerting those around you
+            Discover how Penny AI empowers you to manage, analyze, and optimize your finances with smart, secure, and personalized tools.
           </motion.p>
         </div>
 
@@ -107,10 +107,10 @@ export default function Features() {
             <div className="px-6 py-12 sm:px-12 sm:py-16 lg:flex lg:items-center lg:py-20 lg:pl-16 lg:pr-20">
               <div className="lg:w-0 lg:flex-1">
                 <h3 className="text-3xl font-bold tracking-tight text-white">
-                  Experience the emergency roleplay
+                  Experience Smart Financial Assistance
                 </h3>
                 <p className="mt-4 max-w-3xl text-lg text-primary-100">
-                  Try our interactive demo to see how Penny disguises emergency calls as everyday conversations. See how the AI maintains a natural roleplay while detecting emergencies.
+                  Try our interactive demo to see how Penny AI delivers instant financial insights, personalized consulting, and secure support for all your financial needs.
                 </p>
               </div>
               <div className="mt-12 sm:mt-16 lg:mt-0 lg:ml-8 lg:flex-shrink-0">

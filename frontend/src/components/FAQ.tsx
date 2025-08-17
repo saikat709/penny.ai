@@ -1,37 +1,48 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Disclosure, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 const faqs = [
   {
-  question: "How does Penny work?",
-  answer: "Penny is an AI-powered emergency hotline that roleplays as everyday services. Simply call our hotline, put your phone on speaker, and our AI will pretend to be a pizza place, tech support, or another service. Through this natural conversation, Penny extracts critical information about your emergency without alerting others around you. Your location, the nature of the emergency, and even background noises are analyzed and simultaneously transmitted to 911 dispatchers."
+    question: "What is Penny AI?",
+    answer: "Penny AI is a financial assistant powered by artificial intelligence, designed to provide personalized financial insights, answer queries, and help you manage your finances efficiently."
   },
   {
-  question: "When would I use Penny instead of calling 911 directly?",
-  answer: "Use Penny when making a direct 911 call might escalate the danger. For example, during a home invasion, domestic violence situation, kidnapping, or active shooter event, the perpetrator might react violently if they hear you calling emergency services. Penny's roleplaying creates a believable Penny story while still getting you the help you need."
+    question: "How does Penny AI access my financial data?",
+    answer: "Penny AI securely connects to your financial accounts and databases using encrypted protocols. Your data is never shared with third parties and is used only to provide you with relevant financial information."
   },
   {
-    question: "Is there an app I need to download?",
-  answer: "No, Penny doesn't require an app. Simply call our hotline number from any phone and put it on speaker. The roleplaying conversation begins immediately, with no setup required. This ensures that in an emergency, you can access help instantly without needing to install anything beforehand."
+    question: "Can Penny AI help me create a budget?",
+    answer: "Yes, Penny AI can analyze your income and expenses, suggest budget plans, and track your spending to help you stay within your financial goals."
   },
   {
-  question: "How does Penny extract emergency information through roleplaying?",
-  answer: "Penny uses advanced conversational AI to lead natural-sounding discussions. When you call, our AI might ask things like 'What's your delivery address?' or 'Can you describe the issue you're having?' These seemingly normal questions help gather your location and emergency details. The AI also analyzes voice stress patterns and background sounds, all while maintaining its roleplay character."
+    question: "Is my data safe with Penny AI?",
+    answer: "Absolutely. Penny AI uses industry-standard security measures to protect your data, including encryption and secure authentication."
   },
   {
-  question: "What types of personas can Penny roleplay as?",
-  answer: "Penny can instantly adopt several convincing personas, including: a pizza delivery service, a technical support agent, your boss or colleague, a friend checking in, a ride-sharing driver, or a customer service representative. Each persona uses natural language patterns appropriate to their role while strategically gathering emergency information."
+    question: "Can Penny AI provide investment advice?",
+    answer: "Penny AI can offer general investment insights and help you understand different investment options. For personalized investment advice, please consult a licensed financial advisor."
   },
   {
-  question: "How accurate is Penny's emergency detection during roleplaying?",
-  answer: "Penny maintains a 99.7% accuracy rate while roleplaying. Our system is trained to interpret subtle cues in conversation, background noises, and voice stress patterns, all without breaking character. The AI can detect signs of various emergencies including violence, medical issues, fires, and intrusions, transmitting this data to emergency services."
+    question: "How do I ask Penny AI a question?",
+    answer: "Simply type your financial question in the chat interface. Penny AI can answer queries about your account balances, transactions, budgeting, and more."
   },
   {
-  question: "Is my conversation with Penny secure even while it's roleplaying?",
-  answer: "Yes, all Penny conversations are protected with end-to-end encryption. While the emergency-relevant details are transmitted to 911 dispatchers, the full conversation remains private. After your emergency is resolved, conversation data is securely deleted according to strict privacy protocols."
+    question: "Does Penny AI support multiple bank accounts?",
+    answer: "Yes, Penny AI can connect to and manage information from multiple bank accounts, giving you a consolidated view of your finances."
   },
+  {
+    question: "Can Penny AI notify me about unusual account activity?",
+    answer: "Yes, Penny AI can monitor your accounts and alert you to any unusual transactions or potential fraud."
+  },
+  {
+    question: "Is Penny AI free to use?",
+    answer: "Penny AI offers both free and premium plans. The free plan includes basic features, while premium plans provide advanced analytics and personalized consulting."
+  },
+  {
+    question: "How do I contact support?",
+    answer: "You can reach our support team via the chat interface or email us at support@penny.ai for assistance."
+  }
 ];
 
 export default function FAQ() {
