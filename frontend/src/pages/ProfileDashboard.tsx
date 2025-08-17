@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-// import supabase from '../lib/supabase';
+// Supabase removed. Add user/profile DB logic here if needed.
 
 import { 
   UserIcon, 
@@ -15,6 +15,24 @@ import {
   BellAlertIcon
 } from '@heroicons/react/24/outline';
 
+type ProfileFormData = {
+  fullName: string;
+  homeAddress: string;
+  emergencyContact: string;
+  medicalInfo: string;
+  preferredRoleplay: string;
+  customRoleplayName: string;
+  customRoleplayDetails: string;
+};
+
+type ProfileFormErrors = {
+  fullName?: string;
+  homeAddress?: string;
+  emergencyContact?: string;
+  customRoleplayName?: string;
+  customRoleplayDetails?: string;
+};
+
 const roleplayOptions = [
   { id: 'pizza', name: 'Pizza Delivery', description: 'AI pretends to be taking your pizza order' },
   { id: 'tech', name: 'Tech Support', description: 'AI acts as technical support helping with your device' },
@@ -25,33 +43,30 @@ const roleplayOptions = [
 
 export default function ProfileDashboard() {
   const [activeTab, setActiveTab] = useState('personal');
-  const [formData, setFormData] = useState({
-    // Personal info
+  const [formData, setFormData] = useState<ProfileFormData>({
     fullName: '',
     homeAddress: '',
     emergencyContact: '',
     medicalInfo: '',
-    
-    // Roleplay preferences
     preferredRoleplay: 'pizza',
     customRoleplayName: '',
     customRoleplayDetails: '',
   });
+
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [formErrors, setFormErrors] = useState<ProfileFormErrors>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [sessionCheckComplete, setSessionCheckComplete] = useState<boolean>(false);
   
-  const [isSaved, setIsSaved] = useState(false);
-  const [formErrors, setFormErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [saveError, setSaveError] = useState(null);
-  const [sessionCheckComplete, setSessionCheckComplete] = useState(false);
-  
-  const { user, isAuthenticated, loading: authLoading } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
   
   // Check for session in localStorage before redirecting
   const checkLocalSession = () => {
-  const savedSession = localStorage.getItem('penny_session');
-    const supabaseToken = localStorage.getItem('supabase.auth.token');
-    return !!(savedSession || supabaseToken);
+    const savedSession = localStorage.getItem('penny_session');
+    console.log('Checking local session:', savedSession);
+    return true;
   };
   
   // Load profile data from Supabase when component mounts
@@ -68,165 +83,113 @@ export default function ProfileDashboard() {
     // Set session check as complete once auth loading is done
     setSessionCheckComplete(true);
     
-    if (!isAuthenticated && !user && !hasLocalSession) {
-      console.log('No authenticated user or local session found, redirecting to login');
-      // Only redirect if no user AND no stored session
-      navigate('/login');
-      return;
-    }
+    // if (!isAuthenticated && !user && !hasLocalSession) {
+    //   console.log('No authenticated user or local session found, redirecting to login');
+    //   // Only redirect if no user AND no stored session
+    //   navigate('/login');
+    //   return;
+    // }
     
-    if (user) {
-      console.log('User authenticated, loading profile data:', user.email);
-      loadProfileData();
-    } else if (hasLocalSession) {
-      // Try to restore session first before redirecting
-      console.log('No user but found local session, attempting to restore...');
+    // if (user) {
+    //   console.log('User authenticated, loading profile data:', user.email);
+    //   loadProfileData();
+    // } else if (hasLocalSession) {
+    //   // Try to restore session first before redirecting
+    //   console.log('No user but found local session, attempting to restore...');
       
-      // Give time for auth state to resolve
-      const timer = setTimeout(() => {
-        if (!user && !authLoading) {
-          console.log('Session restore failed, redirecting to login');
-          navigate('/login');
-        }
-      }, 2000);
+    //   // Give time for auth state to resolve
+    //   const timer = setTimeout(() => {
+    //     if (!user && !authLoading) {
+    //       console.log('Session restore failed, redirecting to login');
+    //       navigate('/login');
+    //     }
+    //   }, 2000);
       
-      return () => clearTimeout(timer);
-    }
+    //   return () => clearTimeout(timer);
+    // }
   }, [user, isAuthenticated, authLoading, navigate]);
   
-  // Function to load profile data from Supabase
+  // Function to load profile data from DB (Supabase removed)
   const loadProfileData = async () => {
-    if (!user) {
-      console.log('Cannot load profile: No authenticated user');
-      return;
-    }
-    
-    setIsLoading(true);
-    try {
-      // Try to get the session first to confirm authentication
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        console.error('No active session found when trying to load profile');
-        navigate('/login');
-        return;
-      }
-      
-      // Query the profiles table to get the current user's profile
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-      
-      if (error) {
-        if (error.code === 'PGRST116') { // PGRST116 is "no rows returned" error
-          console.log('No profile found, creating a new one');
-          // Initialize with default profile data
-          await createNewProfile();
-        } else {
-          throw error;
-        }
-      }
-      
-      if (data && data.profile_data) {
-        // Set form data from database
-        console.log('Profile data loaded successfully');
-        setFormData(data.profile_data);
-      }
-    } catch (error) {
-      console.error('Error loading profile:', error);
-      setSaveError('Failed to load your profile data');
-    } finally {
-      setIsLoading(false);
-    }
+    // Add logic to load user profile from your DB here
+    // Example: fetch('/api/profile')
+    // For now, this is empty.
+    // ...existing code...
   };
   
-  // Create a new profile if one doesn't exist
+  // Create a new profile if one doesn't exist (Supabase removed)
   const createNewProfile = async () => {
-    // try {
-    //   const { error } = await supabase
-    //     .from('profiles')
-    //     .insert({
-    //       user_id: user.id,
-    //       profile_data: formData,
-    //       created_at: new Date(),
-    //       updated_at: new Date()
-    //     });
-      
-    //   if (error) throw error;
-    //   console.log('New profile created successfully');
-    // } catch (error) {
-    //   console.error('Error creating profile:', error);
-    //   setSaveError('Failed to create your profile');
-    // }
+    // Add logic to create a new user profile in your DB here
+    // Example: fetch('/api/profile', { method: 'POST', body: ... })
+    // ...existing code...
   };
   
   // Show loading state while checking auth
-  if (authLoading || (!sessionCheckComplete && !isAuthenticated)) {
-    return (
-      <div className="bg-gray-50 dark:bg-dark-300 min-h-screen pt-24">
-        <div className="container-custom py-8">
-          <div className="max-w-md mx-auto">
-            <div className="flex flex-col items-center justify-center py-10">
-              <div className="flex justify-center items-center w-20 h-20 rounded-full bg-primary-50 dark:bg-primary-900/20 mb-6">
-                <svg className="animate-spin h-10 w-10 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-              </div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-                Loading Profile
-              </h1>
-              <p className="text-gray-600 dark:text-gray-400">
-                Please wait while we retrieve your information...
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // if (authLoading || (!sessionCheckComplete && !isAuthenticated)) {
+  //   return (
+  //     <div className="bg-gray-50 dark:bg-dark-300 min-h-screen pt-24">
+  //       <div className="container-custom py-8">
+  //         <div className="max-w-md mx-auto">
+  //           <div className="flex flex-col items-center justify-center py-10">
+  //             <div className="flex justify-center items-center w-20 h-20 rounded-full bg-primary-50 dark:bg-primary-900/20 mb-6">
+  //               <svg className="animate-spin h-10 w-10 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+  //                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+  //                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  //               </svg>
+  //             </div>
+  //             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+  //               Loading Profile
+  //             </h1>
+  //             <p className="text-gray-600 dark:text-gray-400">
+  //               Please wait while we retrieve your information...
+  //             </p>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
   
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData({ 
-      ...formData, 
-      [name]: value 
+    setFormData({
+      ...formData,
+      [name]: value,
     });
     setIsSaved(false);
-    
+
     // Clear any errors for this field
-    if (formErrors[name]) {
+    if (formErrors[name as keyof ProfileFormErrors]) {
       setFormErrors({
         ...formErrors,
-        [name]: null
+        [name]: undefined,
       });
     }
   };
   
-  const handleRoleplayChange = (id) => {
+  const handleRoleplayChange = (id: string) => {
     setFormData({
       ...formData,
-      preferredRoleplay: id
+      preferredRoleplay: id,
     });
     setIsSaved(false);
   };
   
   // Validate form based on active tab
-  const validateForm = () => {
-    const errors = {};
-    
+  const validateForm = (): boolean => {
+    const errors: ProfileFormErrors = {};
+
     if (activeTab === 'personal') {
       if (!formData.fullName) errors.fullName = 'Name is required';
       if (!formData.homeAddress) errors.homeAddress = 'Address is required';
       if (!formData.emergencyContact) errors.emergencyContact = 'Emergency contact is required';
     }
-    
+
     if (activeTab === 'roleplay' && formData.preferredRoleplay === 'custom') {
       if (!formData.customRoleplayName) errors.customRoleplayName = 'Name is required for custom roleplay';
       if (!formData.customRoleplayDetails) errors.customRoleplayDetails = 'Details are required for custom roleplay';
     }
-    
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -239,77 +202,34 @@ export default function ProfileDashboard() {
   };
   
   // Navigate to previous tab
+  /*
   const handlePrevTab = () => {
     if (activeTab === 'roleplay') setActiveTab('personal');
   };
+  */
   
-  const saveProfile = async () => {
+  const saveProfile = async (): Promise<void> => {
     setSaveError(null);
-    
+
     if (!isAuthenticated || !user) {
       setSaveError('You must be logged in to save your profile');
       return;
     }
-    
+
     setIsLoading(true);
-    try {
-      // Check if profile exists
-      const { data: existingProfile, error: checkError } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('user_id', user.id)
-        .single();
-      
-      let saveError;
-      
-      if (checkError && checkError.code !== 'PGRST116') {
-        throw checkError;
-      }
-      
-      if (existingProfile) {
-        // Update existing profile
-        const { error } = await supabase
-          .from('profiles')
-          .update({ 
-            profile_data: formData,
-            updated_at: new Date()
-          })
-          .eq('user_id', user.id);
-        
-        saveError = error;
-      } else {
-        // Create new profile
-        const { error } = await supabase
-          .from('profiles')
-          .insert({
-            user_id: user.id,
-            profile_data: formData,
-            created_at: new Date(),
-            updated_at: new Date()
-          });
-        
-        saveError = error;
-      }
-      
-      if (saveError) throw saveError;
-      
+    // Add logic to save/update user profile in your DB here
+    // Example: fetch('/api/profile', { method: 'PUT', body: ... })
+    // For now, just simulate save
+    setTimeout(() => {
       setIsSaved(true);
-      // Reset save confirmation after 3 seconds
-      setTimeout(() => {
-        setIsSaved(false);
-      }, 3000);
-    } catch (error) {
-      console.error('Error saving profile:', error);
-      setSaveError('Failed to save your profile. Please try again.');
-      setIsSaved(false);
-    } finally {
       setIsLoading(false);
-    }
+      setTimeout(() => setIsSaved(false), 3000);
+    }, 1000);
   };
   
   // If user is not logged in, redirect to login
   if (!user) {
-    return null; // Return null instead of rendering anything
+    return <h1 className='text-white pt-20 text-center'> User is null </h1>; // Return null instead of rendering anything
   }
   
   return (

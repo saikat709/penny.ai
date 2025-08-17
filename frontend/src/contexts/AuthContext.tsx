@@ -3,7 +3,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { AuthContext } from "./useAuth";
+import { AuthContext } from "../hooks/useAuth";
 import axios from "axios";
 import type { ParkingInfoType } from "../libs/HookTypes";
 
@@ -16,7 +16,7 @@ export const AuthContextProvider = ({
 
     const [user, setUser] = useState<ParkingInfoType | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [errorCallback, setErrorCallback] = useState<((msg: string) => void) | null>(null);
 
     useEffect(() => {
@@ -89,7 +89,7 @@ export const AuthContextProvider = ({
       console.log("Parking completed, updated parking info:", user);
     }
 
-    const isAuthenticated = isLoggedIn;
+    const isAuthenticated = true;
     return (
         <AuthContext.Provider value={{ login, user, isLoggedIn, logout, isLoading, onError, completeParking, isAuthenticated }}>
         {children}

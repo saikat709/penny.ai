@@ -2,7 +2,7 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { WebSocketContext } from "./useWebSocket";
+import { WebSocketContext } from "../hooks/useWebSocket";
 import type { WSMessage, WebSocketProviderProps } from "../libs/HookTypes";
 
 

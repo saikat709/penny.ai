@@ -1,9 +1,9 @@
 import { RouterProvider } from "react-router-dom";
 
 
-import { WebSocketProvider } from "./hooks/WebSocketContext";
-import { AuthContextProvider } from "./hooks/AuthContext";
-import { ThemeProvider } from "./hooks/ThemeContext";
+import { WebSocketProvider } from "./contexts/WebSocketContext";
+import { AuthContextProvider } from "./contexts/AuthContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import router from "./router";
 
 
