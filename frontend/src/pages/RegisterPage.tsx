@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import useAuth from "../hooks/useAuth";
@@ -23,9 +23,8 @@ export default function RegisterPage() {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const {isGoogleLoading, handleGoogleLogin} = useAuth();
   
-  const { signUp, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
   
   const handleChange = (e) => {
@@ -61,16 +60,15 @@ export default function RegisterPage() {
     setSuccessMessage('');
     
     if (!validateForm()) return;
-    
     setIsLoading(true);
     
     try {
-      const { error } = await signUp(formData.email, formData.password);
+      // const { error } = await signUp(formData.email, formData.password);
       
-      if (error) {
-        setErrorMessage(error.message || 'Failed to create account');
-        return;
-      }
+      // if (error) {
+      //   setErrorMessage(error.message || 'Failed to create account');
+      //   return;
+      // }
       
       // Save remember me preference
       localStorage.setItem('penny_remember_me', rememberMe.toString());
@@ -97,35 +95,7 @@ export default function RegisterPage() {
     }
   };
   
-  const handleGoogleSignIn = async () => {
-    setErrorMessage('');
-    setSuccessMessage('');
-    setIsGoogleLoading(true);
-    
-    try {
-      // Using signInWithGoogle from AuthContext and passing remember me preference
-      const { data, error } = await signInWithGoogle(rememberMe);
-      
-      if (error) {
-        console.error('Google sign in error:', error);
-        setErrorMessage(error.message || 'Failed to sign in with Google');
-        setIsGoogleLoading(false);
-        return;
-      }
-      
-      // Save remember me preference
-  localStorage.setItem('penny_remember_me', rememberMe.toString());
-      
-      console.log('Google sign-in initiated successfully');
-      
-      // The user will be redirected to Google's consent page,
-      // so we don't need to do anything else here
-    } catch (error) {
-      console.error('Google login error:', error);
-      setErrorMessage(`Error signing in with Google: ${error.message || 'Unknown error'}`);
-      setIsGoogleLoading(false);
-    }
-  };
+  
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark-300 dark:to-dark-400 flex flex-col md:flex-row">
@@ -236,7 +206,7 @@ export default function RegisterPage() {
           <div className="space-y-4 mb-6">
             <button
               type="button"
-              onClick={handleGoogleSignIn}
+              onClick={ handleGoogleLogin }
               disabled={isGoogleLoading}
               className="w-full flex justify-center items-center rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-200 px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-200 shadow-sm hover:bg-gray-50 dark:hover:bg-dark-300 transition-colors duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
             >

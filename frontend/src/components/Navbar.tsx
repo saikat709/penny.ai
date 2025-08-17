@@ -12,7 +12,6 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Check if a nav link is active
   const isLinkActive = (path) => {
     if (path.startsWith('/#')) {
       return location.hash === path.substring(1);
@@ -20,17 +19,14 @@ export default function Navbar() {
     return location.pathname === path;
   };
 
-  // Handle scroll effect for glass navbar
   useEffect(() => {
     const handleScroll = () => {
-      // Set scrolled state for navbar background
       if (window.scrollY > 10) {
         setScrolled(true);
       } else {
         setScrolled(false);
       }
 
-      // Calculate scroll progress
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
       setScrollProgress(progress);
@@ -40,12 +36,10 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close menu when route changes
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location]);
 
-  // Handle logout
   const handleLogout = async () => {
     try {
       await logout();
@@ -55,32 +49,24 @@ export default function Navbar() {
     }
   };
 
-  // Add a protected route redirect
   useEffect(() => {
-    // If on profile page and not authenticated, redirect to login
     if (location.pathname === '/profile' && !isAuthenticated && !user) {
       navigate('/login');
     }
   }, [location, isAuthenticated, user, navigate]);
 
-  // Function to handle anchor link navigation
   const handleAnchorClick = (e, anchor) => {
-    // Only process links that start with #
     if (anchor.startsWith('#')) {
       e.preventDefault();
       
-      // If not on the home page, navigate to home page first
       if (location.pathname !== '/') {
         window.location.href = '/' + anchor;
         return;
       }
       
-      // Get the element on the page
       const element = document.getElementById(anchor.substring(1));
       if (element) {
-        // Scroll to the element
         element.scrollIntoView({ behavior: 'smooth' });
-        // Optionally update URL without page reload
         window.history.pushState(null, '', anchor);
       }
     }

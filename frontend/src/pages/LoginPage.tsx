@@ -17,9 +17,8 @@ export default function LoginPage() {
   );
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const { isGoogleLoading, handleGoogleLogin } = useAuth();
   
-  const { signIn, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
   
   const handleSubmit = async (e) => {
@@ -35,7 +34,6 @@ export default function LoginPage() {
         return;
       }
       
-      // Redirect to profile page after successful login
       navigate('/profile');
     } catch (error) {
       setErrorMessage('An unexpected error occurred');
@@ -45,32 +43,6 @@ export default function LoginPage() {
     }
   };
   
-  const handleGoogleSignIn = async () => {
-    setErrorMessage('');
-    setIsGoogleLoading(true);
-    
-    try {
-      // Using signInWithGoogle from AuthContext
-      const { data, error } = await signInWithGoogle(rememberMe);
-      
-      if (error) {
-        console.error('Google sign in error:', error);
-        setErrorMessage(error.message || 'Failed to sign in with Google');
-        setIsGoogleLoading(false);
-        return;
-      }
-      
-      // Successful case will redirect via OAuth flow
-      console.log('Google sign-in initiated successfully');
-      
-      // The user will be redirected to Google's consent page,
-      // so we don't need to do anything else here
-    } catch (error) {
-      console.error('Google login error:', error);
-      setErrorMessage(`Error signing in with Google: ${error.message || 'Unknown error'}`);
-      setIsGoogleLoading(false);
-    }
-  };
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark-300 dark:to-dark-400 flex flex-col md:flex-row">
@@ -147,7 +119,7 @@ export default function LoginPage() {
           <div className="space-y-4 mb-6">
             <button
               type="button"
-              onClick={handleGoogleSignIn}
+              onClick={handleGoogleLogin}
               disabled={isGoogleLoading}
               className="w-full flex justify-center items-center rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-200 px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-200 shadow-sm hover:bg-gray-50 dark:hover:bg-dark-300 transition-colors duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
             >

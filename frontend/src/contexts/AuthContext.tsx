@@ -3,9 +3,9 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import type { AuthContextType, User } from "../libs/HookTypes";
 import { AuthContext } from "../hooks/useAuth";
-import axios from "axios";
-import type { ParkingInfoType } from "../libs/HookTypes";
+import { useGoogleLogin, type CodeResponse } from "@react-oauth/google";
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -14,86 +14,135 @@ export const AuthContextProvider = ({
   children,
 }: { children: ReactNode }) => {
 
-    const [user, setUser] = useState<ParkingInfoType | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
-    const [errorCallback, setErrorCallback] = useState<((msg: string) => void) | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
-    useEffect(() => {
-        const fetchParkingInfo = async () => {
-          const localParkingInfo = localStorage.getItem("parkingInfo");
-          if (localParkingInfo) {
-            const parkingData = await JSON.parse(localParkingInfo);
-            const parkingParsed: ParkingInfoType = parkingData.parkingData as ParkingInfoType;
-            setUser(parkingParsed);
-            setIsLoggedIn(true);
-          } else {
-            setIsLoggedIn(false);
-          }
-        };
-        fetchParkingInfo();
-    }, []);
 
-    const login = async ( parkingId: number ) => {
-        setIsLoading(true);
-        console.log(`Logging in with parking ID: ${parkingId}`);
-        try {
-          const res = await axios.get(`${apiUrl}/parking/${parkingId}`);
-
-          if ( res.status === 200 ) {
-            const parkingData = res.data as ParkingInfoType;
-            setUser(parkingData);
-            console.log("Login successful, parking data:", parkingData);
-            localStorage.setItem("parkingInfo", JSON.stringify({
-              "parkingData": parkingData
-            }));
-            setIsLoggedIn(true);
-          } else {
-            throw new Error("Login failed");
-          }
-
-        } catch (error) {
-          console.error("Error during login:", error);
-          if ( errorCallback ) errorCallback((error as Error).message);
-        } finally {
-          setIsLoading(false);
-        }
-    };
-
-    const onError = (callback: (msg: string) => void) => {
-        setErrorCallback(() => callback);
-    };
-
-    const logout = () => {
-        setUser(null);
-        localStorage.removeItem("parkingInfo");
-        setIsLoggedIn(false);
-        console.log("User logged out");
-    };
-
-    const completeParking = (endTime: string, fare?: number) => {
-      setUser(prev => {
-        if (prev) {
-          return {
-            ...prev,
-            ending_time: endTime,
-            fare: fare ? fare : (
-              prev.fare_rate ? Math.floor((Date.parse(endTime) - Date.parse(prev.starting_time)) / 1000) * prev.fare_rate : 0
-            ), 
-          };
-        }
-        return null;
-  
-      });
-      localStorage.setItem("parkingInfo", JSON.stringify(user));
-      console.log("Parking completed, updated parking info:", user);
+  useEffect(() => {
+    const localUserInfo = localStorage.getItem("userInfo");
+    if (localUserInfo) {
+      const userData: User = JSON.parse(localUserInfo);
+      setCurrentUser(userData);
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
     }
+  }, []);
 
-    const isAuthenticated = true;
-    return (
-        <AuthContext.Provider value={{ login, user, isLoggedIn, logout, isLoading, onError, completeParking, isAuthenticated }}>
-        {children}
-        </AuthContext.Provider>
-    );
+
+
+  const login = async (email: string, password: string): Promise<boolean> => {
+    setIsLoading(true);
+    setErrorMessage('');
+    try {
+      const response = await fetch(`${apiUrl}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || 'Login failed');
+        return false;
+      }
+      const data = await response.json();
+      const user: User = data.user;
+      setCurrentUser(user);
+      setIsAuthenticated(true);
+      localStorage.setItem("userInfo", JSON.stringify(user));
+      return true;
+    } catch (error) {
+      setErrorMessage('An unexpected error occurred');
+      console.error('Login error:', error);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async ( codeResponse: Omit<CodeResponse, "error"> ) => {
+      console.log('Google login successful:', codeResponse);
+
+      try {
+        const response = await fetch(`${apiUrl}/auth/google`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ code: codeResponse.code }),
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          setErrorMessage(errorData.message || 'Google login failed');
+          return;
+        }
+        const data = await response.json();
+        const user: User = data.user;
+        setCurrentUser(user);
+        setIsAuthenticated(true);
+        localStorage.setItem("userInfo", JSON.stringify(user));
+      } catch (error) {
+        setErrorMessage('An unexpected error occurred during Google login');
+        console.error('Google login error:', error);
+      }
+    },
+
+    onError: (error ) => {
+      console.error('Google login error:', error);
+      setErrorMessage(`Error signing in with Google: ${error.message || 'Unknown error'}`);
+    },
+
+    flow: 'auth-code',
+    scope: 'email profile'
+
+  });
+
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    setErrorMessage('');
+    try {
+      googleLogin();
+      return true;
+    } catch (error) {
+      setErrorMessage('An unexpected error occurred');
+      console.error('Google login error:', error);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+
+  const logout = async () => {
+    setCurrentUser(null);
+    setIsAuthenticated(false);
+    localStorage.removeItem("userInfo");
+    setErrorMessage('');
+    return true;
+  };
+
+
+  const value: AuthContextType = {
+    isAuthenticated,
+    isLoading,
+    currentUser,
+    errorMessage,
+    login,
+    logout,
+    handleGoogleLogin,
+    isGoogleLoading
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 

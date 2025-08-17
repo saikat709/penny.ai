@@ -55,6 +55,11 @@
 }
 
 
+.gutter:hover {
+  @apply bg-blue-500 transition-colors cursor-move;
+}
+
+
 @utility glass {
     @apply bg-white/70 dark:bg-dark-300/80 backdrop-blur-lg backdrop-saturate-150 transition-all duration-300;
 }

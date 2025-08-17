@@ -1,3 +1,4 @@
+import type { GoogleCredentialResponse } from "@react-oauth/google";
 import type { ReactNode } from "react";
 
 interface WSMessage {
@@ -25,26 +26,20 @@ interface SocketParkingStatus {
   status: boolean;
 }
 
-interface ParkingInfoType {
-  zone_id?: string;
-  parking_id?: number;
-  slot: number;
-  starting_time: string;
-  fare_rate?: number;
-  fare?: number;
-  zone_name?: string;
-  ending_time?: string;
+interface User {
+  name: string;
+  email: string;
 }
 
 interface AuthContextType {
-  login: (parkingId: number) => void;
-  logout?: () => void;
-  onError?: (callback: (msg: string) => void) => void;
-  completeParking: (ending_time: string, fare?: number ) => void;
-  isLoggedIn?: boolean;
-  isLoading?: boolean;
-  user: ParkingInfoType | null;
-  isAuthenticated?: boolean;
+  login: (email: string, password: string) => Promise<boolean>;
+  logout: () => Promise<boolean>;
+  handleGoogleLogin: ( ) => Promise<boolean>;
+  isLoading: boolean;
+  isGoogleLoading: boolean;
+  currentUser: User | null;
+  isAuthenticated: boolean;
+  errorMessage: string;
 }
 
 
@@ -64,7 +59,7 @@ export type {
   SocketTestData, 
   SocketParkingStatus,
   AuthContextType,
-  ParkingInfoType,
+  User,
   ThemeContextType,
   ThemeProviderProps
 };

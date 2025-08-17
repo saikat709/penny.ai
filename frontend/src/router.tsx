@@ -8,6 +8,7 @@ import ChatScreen from "./pages/ChatScreen";
 import LandingPage from "./pages/LandingPage";
 import ProfileDashboard from "./pages/ProfileDashboard";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import SignupPage from "./pages/SignupPage";
 
 
 const router = createBrowserRouter([
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <LoginqPage />,
+      },
+      {
+        path: "signup",
+        element: <SignupPage />,
       },
       {
         path: 'profile',
