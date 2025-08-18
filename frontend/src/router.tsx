@@ -5,8 +5,10 @@ import Page404    from "./pages/Page404";
 import LoginqPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ChatScreen from "./pages/ChatScreen";
+import History from "./pages/History";
 import LandingPage from "./pages/LandingPage";
 import ProfileDashboard from "./pages/ProfileDashboard";
+import Dashboard from "./pages/Dashboard";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import SignupPage from "./pages/SignupPage";
 
@@ -34,6 +36,10 @@ const router = createBrowserRouter([
         element: <ChatScreen />,
       },
       {
+        path: "history",
+        element: <History />,
+      },
+      {
         path: "login",
         element: <LoginqPage />,
       },
@@ -44,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <ProfileDashboard />,
+      },
+      {
+        path: 'dashboard',
+        element: <Dashboard />,
       },
       {
         path: "register",
