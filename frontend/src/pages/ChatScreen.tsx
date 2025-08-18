@@ -3,8 +3,8 @@ import ChatWindow from '../components/Chat/ChatWindow';
 
 export default function ChatScreen() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-300">
-      <div className="container-custom py-6 flex flex-col md:flex-row gap-4">
+    <div className="h-ful bg-gray-50 dark:bg-dark-300 pt-16">
+      <div className="container-custom py-6 flex flex-col md:flex-row gap-2">
         <ChatSidebar />
         <ChatWindow />
       </div>

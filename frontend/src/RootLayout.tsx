@@ -7,11 +7,13 @@ const RootLayout = () => {
     return (
         <>
             <div
-                className="flex flex-col justify-between items-center gap-0 min-w-screen min-h-screen
-                            bg-gradient-to-br from-gray-900 to-black"
+                className="flex flex-col justify-between items-center 
+                        gap-0 min-w-screen min-h-screen
+                        bg-gradient-to-br from-gray-900 to-black"
                             >
                 <Navbar />
-                <div className="mx-auto w-full h-full">
+                
+                <div className="mx-auto w-full">
                     <Outlet />
                 </div>
                 <div className="flex-1"></div>

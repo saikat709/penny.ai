@@ -6,6 +6,7 @@ import LoginqPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ChatScreen from "./pages/ChatScreen";
 import History from "./pages/History";
+import Customize from "./pages/Customize";
 import LandingPage from "./pages/LandingPage";
 import ProfileDashboard from "./pages/ProfileDashboard";
 import Dashboard from "./pages/Dashboard";
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "chat",
         element: <ChatScreen />,
+      },
+      {
+        path: "customize",
+        element: <Customize />,
       },
       {
         path: "history",

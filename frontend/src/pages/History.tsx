@@ -33,7 +33,7 @@ export default function History() {
   const total = items.reduce((s, it) => (it.type === 'income' ? s + it.amount : s - it.amount), 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-300 py-8">
+    <div className="bg-gray-50 dark:bg-dark-300 py-8 pt-18">
       <div className="container-custom">
         <div className="glass-card p-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
@@ -42,12 +42,12 @@ export default function History() {
               <p className="text-sm text-gray-500 dark:text-gray-400">Your incomes and expenses at a glance</p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <div className="text-sm">
                 Net: <span className={`font-semibold ${total >= 0 ? 'text-green-700' : 'text-red-700'}`}>{total >= 0 ? `+$${total.toFixed(2)}` : `-${Math.abs(total).toFixed(2)}`}</span>
               </div>
 
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 flex-wrap">
                 <select value={filter} onChange={(e) => setFilter(e.target.value as 'all' | 'income' | 'expense')} className="p-2 rounded border">
                   <option value="all">All</option>
                   <option value="income">Income</option>
