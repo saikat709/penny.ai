@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { XMarkIcon } from '@heroicons/react/24/solid';
 
 const mockConversations = Array.from({ length: 8 }).map((_, i) => ({
   id: String(i + 1),
@@ -6,8 +8,13 @@ const mockConversations = Array.from({ length: 8 }).map((_, i) => ({
   last: 'Quick summary or last message...',
 }));
 
-export default function ChatSidebar() {
-  const [open, setOpen] = useState(true);
+
+type ChatSidebarProps = {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export default function ChatSidebar({isOpen = true, onClose}: ChatSidebarProps) {
   const [width, setWidth] = useState(320);
   const resizing = useRef(false);
 
@@ -37,9 +44,9 @@ export default function ChatSidebar() {
 
   return (
     <>
-      <aside
-        className={`relative transition-all duration-200 flex-shrink-0 ${open ? '' : 'hidden'}`}
-        style={{ width: open ? width : 0 }}
+      <motion.aside
+        className={`absolute top-16 left-1 md:block md:relative md:top-0 md:left-0 z-10 transition-all duration-200 flex-shrink-0 ${isOpen ? '' : 'hidden'}`}
+        style={{ width: isOpen ? width : 0 }}
         aria-hidden={!open}
       >
       <div className="glass-card h-[80vh] overflow-hidden flex flex-col">
@@ -48,15 +55,7 @@ export default function ChatSidebar() {
             <h3 className="font-semibold">History</h3>
             <span className="text-sm text-gray-500 dark:text-gray-400">Recent chats</span>
           </div>
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setOpen(!open)}
-              className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-dark-200 transition-colors"
-              aria-label={open ? 'Hide history' : 'Show history'}
-            >
-              {open ? 'Hide' : 'Show'}
-            </button>
-          </div>
+          <XMarkIcon className='h-6 w-6 text-gray-500 dark:text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300' onClick={onClose} />
         </div>
 
         <div className="overflow-auto p-2 space-y-2">
@@ -84,17 +83,7 @@ export default function ChatSidebar() {
           <div className="h-full w-full hover:bg-blue-500/20" />
         </div>
       </div>
-    </aside>
-      {/* Floating show button when sidebar hidden */}
-      {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          className="fixed left-2 top-1/2 -translate-y-1/2 z-50 p-2 bg-white dark:bg-dark-200 rounded-r-md shadow-md"
-          aria-label="Show history"
-        >
-          Show
-        </button>
-      )}
+    </motion.aside>
     </>
   );
 }

@@ -28,7 +28,7 @@ export default function LandingPage() {
       <FAQ />
 
       {/* Floating chat button - opens chat page */}
-      <div className="fixed right-6 bottom-6 z-50">
+      <div className="fixed right-6 md:right-10 bottom-6 md:bottom-10 z-50">
         <button
           type="button"
           onClick={() => navigate('/chat')}
