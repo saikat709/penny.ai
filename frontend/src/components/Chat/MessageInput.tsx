@@ -98,7 +98,7 @@ export default function MessageInput({ onSend }: Props) {
           </button>
         </div>
       </form>
-  <AudioModal open={openModal} onClose={() => setOpenModal(false)}>
+    <AudioModal open={openModal} onClose={() => setOpenModal(false)}>
         <div className="flex flex-col items-center gap-4">
           <div className="w-full text-center text-sm text-gray-500">Speak now — transcription will appear live</div>
           <div className="w-full p-4 bg-gray-50 dark:bg-dark-300 rounded-lg">

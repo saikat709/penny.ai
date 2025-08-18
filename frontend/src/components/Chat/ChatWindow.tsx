@@ -25,10 +25,6 @@ export default function ChatWindow() {
     setMessages((cur) => [...cur, { ...m, id: String(Date.now()) }]);
   };
 
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
   return (
     <main className="flex-1 flex flex-col glass-card p-4 h-[80vh]">
       <header className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
@@ -43,7 +39,7 @@ export default function ChatWindow() {
       </header>
 
       <section className="flex-1 overflow-auto px-1" aria-live="polite">
-        <div className="space-y-3 max-w-3xl mx-auto">
+        <div className="space-y-3 mx-auto">
           {messages.map((m) => (
             <MessageBubble key={m.id} message={m} />
           ))}
