@@ -67,15 +67,15 @@ export default function LoginPage() {
         >
           <div className="max-w-md">
             <div className="mb-8">
-              <h2 className="text-3xl font-bold mb-4">Your safety is our priority</h2>
+              <h2 className="text-3xl font-bold mb-4">Take control of your finances</h2>
               <p className="text-primary-100 text-lg">
-                Sign in to access your emergency profile and customize how Penny works for you in critical situations.
+                Sign in to access your financial dashboard and customize Penny to help you reach your money goals.
               </p>
             </div>
             
             <div className="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-              <p className="text-xl font-medium mb-4">"Penny helped me get emergency services when I couldn't openly call 911."</p>
-              <p className="text-primary-200">— Jane D., Penny User</p>
+              <p className="text-xl font-medium mb-4">"Penny helped me save more and understand where my money goes."</p>
+              <p className="text-primary-200"> Jane D., Penny User</p>
             </div>
           </div>
         </motion.div>
@@ -104,7 +104,7 @@ export default function LoginPage() {
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Welcome Back</h1>
             <p className="mt-3 text-gray-600 dark:text-gray-300">
-              Sign in to manage your emergency profile
+              Sign in to manage your financial dashboard
             </p>
           </div>
           

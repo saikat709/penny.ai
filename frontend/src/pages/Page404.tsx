@@ -6,7 +6,7 @@ import Penny from '../assets/Penny.svg';
 
 const Page404: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center bg-gradient-to-br p-0 mb-2">
+    <div className="flex flex-col items-center justify-center bg-gradient-to-br p-0 mb-16 pt-20">
       <Lottie animationData={animation404} loop={true} className="w-56 h-56 mb-0" />
       {/* <h1 className="text-7xl font-extrabold mb-1 text-red-500 hover:scale-120 transition transition-transform duration-500">404</h1> */}
       <p className="text-2xl mb-1 hover:text-white/80 transition duration-500">Oops! Page not found.</p>

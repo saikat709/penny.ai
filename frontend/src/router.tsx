@@ -1,6 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import About      from "./pages/About";
 import RootLayout     from "./RootLayout";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminRoute from "./components/AdminRoute";
+import AdminUsers from "./pages/admin/Users";
 import Page404    from "./pages/Page404";
 import LoginqPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -12,6 +15,7 @@ import ProfileDashboard from "./pages/ProfileDashboard";
 import Dashboard from "./pages/Dashboard";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import SignupPage from "./pages/SignupPage";
+import AuthCallback from "./pages/AuthCallback";
 
 
 const router = createBrowserRouter([
@@ -61,12 +65,32 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
+        path: 'admin',
+        element: (
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: 'admin/users',
+        element: (
+          <AdminRoute>
+            <AdminUsers />
+          </AdminRoute>
+        ),
+      },
+      {
         path: "register",
         element: <RegisterPage />,
       },
       {
         path: "forgot-password",
         element: <ForgotPasswordPage />,
+      },
+      {
+        path: "google/callback",
+        element: <AuthCallback />,
       },
       {
         path: "*",

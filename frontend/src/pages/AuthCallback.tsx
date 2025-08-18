@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import supabase from '../lib/supabase';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 export default function AuthCallback() {
@@ -8,120 +7,79 @@ export default function AuthCallback() {
   const [debugInfo, setDebugInfo] = useState('');
   const [loading, setLoading] = useState(true);
   const [countdown, setCountdown] = useState(3);
-  const [status, setStatus] = useState('initializing'); // 'initializing', 'success', 'error'
+  const [status, setStatus] = useState('initializing');
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Helper function to save session info to localStorage
-  const saveSessionToLocalStorage = (session) => {
-    if (session) {
-      console.log('Saving session info to localStorage');
-  localStorage.setItem('penny_session', JSON.stringify({
-        expires_at: session.expires_at,
-        user_id: session.user.id
-      }));
+  // Parse OAuth callback params (query string and hash), log them to the browser console
+  useEffect(() => {
+    // Helper to parse a query/hash string into an object
+    const parse = (str = '') => {
+      if (!str) return {};
+      const cleaned = str.startsWith('#') || str.startsWith('?') ? str.substring(1) : str;
+      return Object.fromEntries(new URLSearchParams(cleaned));
+    };
+
+    const queryParams = parse(location.search);
+    const hashParams = parse(location.hash);
+
+    const code = queryParams.code || hashParams.code || null;
+    const id_token = queryParams.id_token || hashParams.id_token || null;
+    const access_token = queryParams.access_token || hashParams.access_token || null;
+    const errorParam = queryParams.error || hashParams.error || null;
+
+    const info = {
+      code,
+      id_token,
+      access_token,
+      error: errorParam,
+      queryParams,
+      hashParams,
+    };
+
+    // IMPORTANT: this logs sensitive tokens to the browser console for local debugging only.
+    // Remove these logs before deploying to production.
+    console.log('AuthCallback - OAuth data:', info);
+    setDebugInfo(JSON.stringify(info, null, 2));
+
+    if (errorParam) {
+      setError(errorParam);
+      setStatus('error');
+      setLoading(false);
+      return;
     }
-  };
+
+    // If we have at least one token/code, treat as success and start redirect countdown
+    if (code || id_token || access_token) {
+      setStatus('success');
+      setLoading(false);
+
+      // start countdown to redirect back to profile (or adjust as needed)
+      let cd = 3;
+      setCountdown(cd);
+      const t = setInterval(() => {
+        cd -= 1;
+        setCountdown(cd);
+        if (cd <= 0) {
+          clearInterval(t);
+          navigate('/profile');
+        }
+      }, 1000);
+
+      return () => clearInterval(t);
+    }
+
+    // No params found - stop loading and show error
+    setLoading(false);
+    setStatus('error');
+    setError('No authentication information found in callback URL.');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
+
 
   // Handle countdown for redirect
-  useEffect(() => {
-    let timer;
-    if (status === 'success' && countdown > 0) {
-      timer = setTimeout(() => setCountdown(prev => prev - 1), 1000);
-    }
-    return () => clearTimeout(timer);
-  }, [status, countdown]);
 
-  useEffect(() => {
-    const handleAuthCallback = async () => {
-      try {
-        // Get the URL parameters
-        const currentUrl = window.location.href;
-        setDebugInfo(`Processing URL: ${currentUrl}`);
-        
-        // Parse URL and get parameters
-        const url = new URL(currentUrl);
-        const hashParams = new URLSearchParams(url.hash.substring(1));
-        const code = url.searchParams.get('code') || hashParams.get('code');
-        const next = url.searchParams.get('next') || hashParams.get('next') || '/profile';
-        
-        setDebugInfo(prev => `${prev}\nCode found: ${Boolean(code)}`);
-        
-        if (code) {
-          setLoading(true);
-          // Exchange the code for a session
-          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-          
-          if (error) {
-            setDebugInfo(prev => `${prev}\nError: ${error.message}`);
-            setStatus('error');
-            throw error;
-          }
-          
-          // Save session to localStorage for better persistence
-          if (data?.session) {
-            saveSessionToLocalStorage(data.session);
-            setDebugInfo(prev => `${prev}\nSession data saved to localStorage`);
-          }
-          
-          setDebugInfo(prev => `${prev}\nAuthentication successful, redirecting to: ${next}`);
-          setStatus('success');
-          
-          // Small delay before redirect to ensure session is properly set
-          setTimeout(() => {
-            navigate(next);
-          }, 3000);
-        } else {
-          // Try to get the session directly in case we're already authenticated
-          const { data: { session } } = await supabase.auth.getSession();
-          
-          if (session) {
-            // Update localStorage with the current session
-            saveSessionToLocalStorage(session);
-            setDebugInfo(prev => `${prev}\nNo code found but session exists. Redirecting to: ${next}`);
-            setStatus('success');
-            setTimeout(() => {
-              navigate(next);
-            }, 3000);
-          } else {
-            // Check if we have a session in localStorage
-            const savedSession = localStorage.getItem('penny_session');
-            if (savedSession) {
-              setDebugInfo(prev => `${prev}\nFound saved session in localStorage. Attempting to refresh...`);
-              
-              // Try to refresh the token
-              const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
-              
-              if (refreshData?.session) {
-                saveSessionToLocalStorage(refreshData.session);
-                setDebugInfo(prev => `${prev}\nSession refreshed successfully. Redirecting to: ${next}`);
-                setStatus('success');
-                setTimeout(() => {
-                  navigate(next);
-                }, 3000);
-              } else {
-                setDebugInfo(prev => `${prev}\nFailed to refresh session: ${refreshError?.message || 'Unknown error'}`);
-                setError('Your session has expired. Please log in again.');
-                setStatus('error');
-              }
-            } else {
-              setDebugInfo(prev => `${prev}\nNo code parameter found in URL and no active session`);
-              setError('No authentication code found. The login process may have been interrupted.');
-              setStatus('error');
-            }
-          }
-        }
-      } catch (err) {
-        console.error('Error during authentication callback:', err);
-        setDebugInfo(prev => `${prev}\nException: ${err.message || 'Unknown error'}`);
-        setError(err.message || 'An error occurred during authentication');
-        setStatus('error');
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    handleAuthCallback();
-  }, [navigate]);
+  
 
   // Animation variants
   const containerVariants = {

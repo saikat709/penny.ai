@@ -29,6 +29,8 @@ interface SocketParkingStatus {
 interface User {
   name: string;
   email: string;
+  // optional role field provided by backend, e.g. 'user' | 'admin'
+  role?: string;
 }
 
 interface AuthContextType {

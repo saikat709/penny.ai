@@ -109,9 +109,9 @@ const ChatWindow : React.FC<ChatWindowProps> = (
             <div className="text-sm text-gray-500 dark:text-gray-400">Ask about your finances or log transactions</div>
           </div>
         </div>
-        <div className="flex items-center space-x-2">
-          <button className="btn btn-secondary">Export</button>
-          <button className="btn btn-secondary">New</button>
+        <div className="flex items-center space-x-0.5 md:space-x-2">
+          <button className="border-1 border-blue-200 p-2 rounded-lg hover:bg-blue-400 hover:text-black font-bold">Export</button>
+          <button className="border-1 border-blue-200 p-2 rounded-lg hover:bg-blue-400 hover:text-black font-bold">New</button>
         </div>
       </header>
 

@@ -120,9 +120,9 @@ export default function RegisterPage() {
         >
           <div className="max-w-md">
             <div className="mb-8">
-              <h2 className="text-3xl font-bold mb-4">Setup your emergency profile</h2>
+              <h2 className="text-3xl font-bold mb-4">Set up your financial profile</h2>
               <p className="text-primary-100 text-lg">
-                Your Penny account allows you to customize how our AI roleplays during emergencies and stores your critical information securely.
+                Your Penny account connects your financial accounts securely and lets you personalize insights, budgets, and alerts.
               </p>
             </div>
             
@@ -132,8 +132,8 @@ export default function RegisterPage() {
                   <CheckCircleIcon className="h-5 w-5" />
                 </div>
                 <div className="ml-3">
-                  <p className="text-white font-medium">Personalized Emergency Response</p>
-                  <p className="text-primary-200 text-sm">Your profile helps emergency services respond faster</p>
+                  <p className="text-white font-medium">Personalized Financial Guidance</p>
+                  <p className="text-primary-200 text-sm">Your profile helps Penny tailor budgeting and saving advice</p>
                 </div>
               </div>
               
@@ -143,7 +143,7 @@ export default function RegisterPage() {
                 </div>
                 <div className="ml-3">
                   <p className="text-white font-medium">End-to-End Encryption</p>
-                  <p className="text-primary-200 text-sm">Your data is secure and only used during emergencies</p>
+                  <p className="text-primary-200 text-sm">Your financial data is private and used only to generate insights for you</p>
                 </div>
               </div>
               
@@ -152,8 +152,8 @@ export default function RegisterPage() {
                   <CheckCircleIcon className="h-5 w-5" />
                 </div>
                 <div className="ml-3">
-                  <p className="text-white font-medium">Custom Roleplay Options</p>
-                  <p className="text-primary-200 text-sm">Choose how our AI disguises your emergency call</p>
+                  <p className="text-white font-medium">Custom Insight Preferences</p>
+                  <p className="text-primary-200 text-sm">Choose the types of alerts and advice you want to receive</p>
                 </div>
               </div>
             </div>
@@ -184,7 +184,7 @@ export default function RegisterPage() {
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Create Account</h1>
             <p className="mt-3 text-gray-600 dark:text-gray-300">
-              Sign up to setup your emergency profile
+              Sign up to connect your accounts and start getting financial insights
             </p>
           </div>
           

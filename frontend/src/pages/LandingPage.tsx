@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Hero from "../components/landing/Hero";
 import HowItWorks from "../components/landing/HowItWorks";
 import Features from "../components/landing/Features";
@@ -7,9 +7,10 @@ import FAQ from "../components/landing/FAQ";
 
 export default function LandingPage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const hash = window.location.hash;
+    const hash = location.hash;
     if (hash) {
       setTimeout(() => {
         const element = document.querySelector(hash);
@@ -18,7 +19,7 @@ export default function LandingPage() {
         }
       }, 100);
     }
-  }, []);
+  }, [location.hash]);
 
   return (
     <>

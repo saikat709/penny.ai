@@ -81,7 +81,7 @@ export default function SignupPage() {
               <div className="text-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Create an Account</h1>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
-                  Sign up to save your emergency profile
+                  Sign up to connect your accounts and unlock personalized financial insights
                 </p>
               </div>
               
@@ -152,7 +152,7 @@ export default function SignupPage() {
                     </button>
                   </div>
                   <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    Password must be at least 6 characters
+                    Password must be at least 6 characters to keep your financial data secure
                   </p>
                 </div>
                 

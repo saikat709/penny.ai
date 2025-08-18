@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import useAuth from '../hooks/useAuth';
@@ -8,16 +8,72 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, logout, currentUser, user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const isLinkActive = (path) => {
+  const [activeHash, setActiveHash] = useState(
+    location.hash ? location.hash.replace('#', '') : ''
+  );
+  const activeHashRef = useRef(activeHash);
+
+  const isLinkActive = (path: string) => {
+    console.log('Checking active link for:', path);
     if (path.startsWith('/#')) {
-      return location.hash === path.substring(1);
+      const target = path.substring(2); // remove leading '/#'
+      return activeHash === target || location.hash === `#${target}`;
     }
     return location.pathname === path;
   };
+
+  useEffect(() => {
+    activeHashRef.current = activeHash;
+  }, [activeHash]);
+
+  useEffect(() => {
+    const newHash = location.hash ? location.hash.replace('#', '') : '';
+    if (newHash !== activeHashRef.current) {
+      setActiveHash(newHash);
+    }
+  }, [location.hash]);
+
+  useEffect(() => {
+    const ids = ['how-it-works', 'features', 'faq'];
+    let ticking = false;
+
+    const onScrollSections = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        let current = '';
+        let bestTop = -Infinity;
+
+        ids.forEach((id) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 120 && rect.top > bestTop) {
+            bestTop = rect.top;
+            current = id;
+          }
+        });
+
+        if (window.scrollY === 0) current = '';
+
+        if (current !== activeHashRef.current) {
+          activeHashRef.current = current;
+          setActiveHash(current);
+          navigate({ hash: current ? `#${current}` : '' }, { replace: true });
+        }
+
+        ticking = false;
+      });
+    };
+
+    window.addEventListener('scroll', onScrollSections, { passive: true });
+    onScrollSections();
+    return () => window.removeEventListener('scroll', onScrollSections);
+  }, [navigate]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,24 +106,26 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    if (location.pathname === '/profile' && !isAuthenticated && !user) {
+    if (location.pathname === '/profile' && !isAuthenticated && !user && !currentUser) {
       navigate('/login');
     }
-  }, [location, isAuthenticated, user, navigate]);
+  }, [ location, isAuthenticated, user, currentUser, navigate ]);
 
-  const handleAnchorClick = (e, anchor) => {
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, anchor: string) => {
     if (anchor.startsWith('#')) {
       e.preventDefault();
       
       if (location.pathname !== '/') {
-        window.location.href = '/' + anchor;
-        return;
+  // navigate to the home path and include the hash so react-router updates location
+  navigate({ pathname: '/', hash: anchor });
+  return;
       }
       
       const element = document.getElementById(anchor.substring(1));
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
-        window.history.pushState(null, '', anchor);
+        // Update the URL hash using react-router so useLocation reflects the change
+        navigate({ hash: anchor }, { replace: true });
       }
     }
   };
@@ -157,6 +215,14 @@ export default function Navbar() {
                 >
                   Profile
                 </Link>
+                {currentUser?.role === 'admin' && (
+                  <Link
+                    to="/admin"
+                    className="glass-button text-sm px-4 py-2 text-gray-700 dark:text-gray-200 font-medium ml-2"
+                  >
+                    Admin
+                  </Link>
+                )}
                 <button 
                   onClick={handleLogout}
                   className="btn btn-primary btn-glow text-sm px-4 py-2"
@@ -244,16 +310,26 @@ export default function Navbar() {
           
           {/* Authenticated-only links */}
           {isAuthenticated && (
-            <Link 
-              to="/profile" 
-              className={`block py-2.5 px-3 rounded-lg ${
-                isLinkActive('/profile') 
-                  ? 'bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 text-primary-700 dark:text-primary-300 font-medium' 
-                  : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-dark-200'
-              } transition-colors`}
-            >
-              Profile
-            </Link>
+            <>
+              <Link 
+                to="/profile" 
+                className={`block py-2.5 px-3 rounded-lg ${
+                  isLinkActive('/profile') 
+                    ? 'bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 text-primary-700 dark:text-primary-300 font-medium' 
+                    : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-dark-200'
+                } transition-colors`}
+              >
+                Profile
+              </Link>
+              {currentUser?.role === 'admin' && (
+                <Link
+                  to="/admin"
+                  className="block py-2.5 px-3 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-dark-200"
+                >
+                  Admin
+                </Link>
+              )}
+            </>
           )}
           
           <div className="pt-3 mt-3 border-t border-gray-200 dark:border-gray-700 space-y-4">

@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import VoiceRecorder from './VoiceRecorder';
 import AudioModal from './AudioModal';
-import { AdjustmentsVerticalIcon } from '@heroicons/react/24/solid';
+import FilterSelect from './FilterSelect';
 
 type Props = {
   onSend: (text: string, meta?: { type?: 'income' | 'expense' | 'text'; amount?: number }) => void;
@@ -26,49 +26,14 @@ export default function MessageInput({ onSend }: Props) {
 
   return (
     <div className="w-full">
-      {/* horizontal layout: left selection inside input, textarea, then actions */}
-      <form onSubmit={send} className="flex items-end gap-2">
-        <div className="flex items-center gap-1 flex-1">
+      {/* responsive layout: stack on small screens, horizontal on sm+ */}
+      <form onSubmit={send} className="flex flex-col sm:flex-row items-end gap-2 w-full">
+        <div className="flex items-center gap-1 flex-1 w-full">
           {/* combined select + textarea look */}
-          <div className="flex items-stretch w-full rounded-lg border border-gray-200 dark:border-dark-100 overflow-hidden bg-white dark:bg-dark-200">
-            <div className="flex items-center justify-center px-3 bg-gray-50 dark:bg-dark-300 border-r border-gray-200 dark:border-dark-100 bg-red-200">
-              <select
-                id='filter-select'
-                value={filter}
-                onChange={(e) => setFilter(e.target.value as 'agent' | 'consultant' | 'learn')}
-                className="bg-transparent text-sm outline-none appearance-none px-1"
-                aria-label="Select assistant"
-              >
-                <option value="agent"> Agent </option>
-                <option value="consultant">Consultant</option>
-                <option value="learn">Learn</option>
-              </select>
-                
-              {/* show filter icon next to agent label when in 'agent' mood */}
-              {filter === 'agent' && (
-                <AdjustmentsVerticalIcon 
-                  onClick={ ()=>{
-                    const el = document.getElementById('filter-select');
-                    if (el) el.focus();
-                    else console.warn('Filter select not found');
-                    console.log('Filter icon clicked');
-                  }}
-                  className="h-6 w-6 text-gray-200"
-                />
-              )}
-
-              {/* clear button shown only when selection is NOT 'agent' */}
-              {filter !== 'agent' && (
-                <button
-                  type="button"
-                  onClick={() => setFilter('agent')}
-                  className="ml-1 text-gray-500 hover:text-gray-700"
-                  aria-label="Clear selection"
-                  title="Clear selection"
-                >
-                  ✖
-                </button>
-              )}
+          <div className="flex items-stretch w-full rounded-lg border border-gray-200 dark:border-dark-100 bg-white dark:bg-dark-200">
+            
+            <div className="flex items-center justify-center px-2 sm:px-3 bg-gray-50 dark:bg-dark-300 border-r border-gray-200 dark:border-dark-100 w-20 sm:w-28">
+              <FilterSelect id="filter-select" value={filter} onChange={(v) => setFilter(v)} />
             </div>
 
             <textarea
@@ -76,7 +41,7 @@ export default function MessageInput({ onSend }: Props) {
               onChange={(e) => setText(e.target.value)}
               rows={2}
               placeholder="Send a message or say: 'I spent $12 on lunch'"
-              className="flex-1 p-3 resize-none focus:outline-none focus:ring-0 bg-transparent"
+              className="flex-1 p-2 sm:p-3 resize-none focus:outline-none focus:ring-0 bg-transparent text-sm sm:text-base"
             />
           </div>
 
@@ -84,7 +49,7 @@ export default function MessageInput({ onSend }: Props) {
           <button
             type="button"
             onClick={() => setOpenModal(true)}
-            className="p-2 rounded-full bg-gray-100 dark:bg-dark-200"
+            className="p-1 sm:p-2 rounded-full bg-gray-100 dark:bg-dark-200 text-sm sm:text-base"
             title="Open voice input"
           >
             🎤
@@ -92,14 +57,14 @@ export default function MessageInput({ onSend }: Props) {
 
           <button
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-primary px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base"
             aria-label="Send message"
           >
             Send
           </button>
         </div>
       </form>
-    <AudioModal open={openModal} onClose={() => setOpenModal(false)}>
+      <AudioModal open={openModal} onClose={() => setOpenModal(false)}>
         <div className="flex flex-col items-center gap-4">
           <div className="w-full text-center text-sm text-gray-500">Speak now — transcription will appear live</div>
           <div className="w-full p-4 bg-gray-50 dark:bg-dark-300 rounded-lg">

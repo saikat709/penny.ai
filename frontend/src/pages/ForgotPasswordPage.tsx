@@ -57,7 +57,7 @@ export default function ForgotPasswordPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center mt-12">
             <ShieldCheckIcon className="h-8 w-8 mr-2" />
             <span className="text-2xl font-bold">Penny</span>
           </Link>
@@ -73,7 +73,7 @@ export default function ForgotPasswordPage() {
             <div className="mb-8">
               <h2 className="text-3xl font-bold mb-4">Recover your access</h2>
               <p className="text-primary-100 text-lg">
-                We'll help you reset your password and get back to your emergency profile safely.
+                We'll help you securely reset your password to regain access to your financial dashboard.
               </p>
             </div>
             
@@ -82,7 +82,7 @@ export default function ForgotPasswordPage() {
                 <KeyIcon className="h-6 w-6 mr-2" />
                 <p className="text-xl font-medium">Secure Password Reset</p>
               </div>
-              <p className="text-primary-200">We'll email you instructions to reset your password securely. No personal information will be shared in the email.</p>
+              <p className="text-primary-200">We'll email you instructions to reset your password securely. This ensures your financial data remains protected.</p>
             </div>
           </div>
         </motion.div>
