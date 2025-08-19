@@ -32,6 +32,9 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column( name = "name", nullable = false, length = 200, unique = false)
+    private String name;
+
     @Column(nullable = false, length = 100, unique = true)
     @Email
     @Size(max = 100)
@@ -62,7 +65,6 @@ public class UserEntity {
     @Column(name = "last_streak_update")
     private OffsetDateTime lastStreakUpdate;
 
-    // Relationships (one-to-many) with cascade remove to mirror ON DELETE CASCADE
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Budget> budgets;

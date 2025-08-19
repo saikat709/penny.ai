@@ -12,10 +12,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter @Setter
 public class RegisterRequestDTO {
+
     @Email
     @NotBlank
     private String email;
+
+    @NotBlank
+    private String name;
+
     @NotBlank
     private String password;
-    private String googleId;
+
 }

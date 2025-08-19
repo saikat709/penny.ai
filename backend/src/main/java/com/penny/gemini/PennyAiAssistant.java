@@ -22,6 +22,5 @@ public interface PennyAiAssistant {
             "where 'type' indicates the response category (e.g., 'financial_advice' or " +
             "'educational_content') and 'data' contains the relevant information."
     )
-
     String financialConsultation(String prompt);
 }

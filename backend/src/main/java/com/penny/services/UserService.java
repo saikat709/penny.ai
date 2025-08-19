@@ -1,10 +1,15 @@
 package com.penny.services;
 
+import com.penny.dto.GoogleLoginDTO;
 import com.penny.dto.RegisterRequestDTO;
+import com.penny.dto.UserResponseDto;
 import com.penny.models.UserEntity;
 import com.penny.repositories.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -19,16 +24,32 @@ public class UserService {
     public void registerUser(RegisterRequestDTO registerRequestDTO){
         UserEntity user = new UserEntity();
         user.setEmail(registerRequestDTO.getEmail());
-        // If username is not provided in DTO, default to email prefix or email itself
-        /**
-        String email = registerRequestDTO.getEmail();
-        if (email != null && email.contains("@")) {
-            user.setUsername(email.substring(0, email.indexOf('@')));
-        } else {
-            user.setUsername(email);
-        }
-         */
         user.setPasswordHash(passwordEncoder.encode(registerRequestDTO.getPassword()));
         userRepository.save(user);
+    }
+
+    public UserResponseDto googleLogin(@Valid GoogleLoginDTO googleBody) {
+        Optional<UserEntity> user = userRepository.getUserEntitiesByEmail(googleBody.getEmail());
+
+        UserEntity userEntity;
+
+        if (user.isPresent()) {
+            userEntity = user.get();
+
+        } else {
+            UserEntity newUser = new UserEntity();
+            newUser.setName(googleBody.getName());
+            newUser.setEmail(googleBody.getEmail());
+            String placeholder = java.util.UUID.randomUUID().toString();
+            newUser.setPasswordHash(passwordEncoder.encode(placeholder));
+
+            userRepository.save(newUser);
+            userEntity = newUser;
+        }
+        return new UserResponseDto(
+                userEntity.getId(),
+                userEntity.getName(),
+                userEntity.getEmail()
+        );
     }
 }
