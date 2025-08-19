@@ -19,11 +19,9 @@ export default function RegisterPage() {
     password: '',
     confirmPassword: ''
   });
-  const [rememberMe, setRememberMe] = useState(true); // Default to true for new registrations
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const {isGoogleLoading, handleGoogleLogin} = useAuth();
+  const { isGoogleLoading, handleGoogleLogin, isLoading, register } = useAuth();
   
   const navigate = useNavigate();
   
@@ -60,38 +58,30 @@ export default function RegisterPage() {
     setSuccessMessage('');
     
     if (!validateForm()) return;
-    setIsLoading(true);
     
     try {
-      // const { error } = await signUp(formData.email, formData.password);
+      const status = await register(formData.name, formData.email, formData.password);
+
+      if ( status) {
+        setSuccessMessage('Registration successful! Please check your email to confirm your account.');
       
-      // if (error) {
-      //   setErrorMessage(error.message || 'Failed to create account');
-      //   return;
-      // }
-      
-      // Save remember me preference
-      localStorage.setItem('penny_remember_me', rememberMe.toString());
-      
-      setSuccessMessage('Registration successful! Please check your email to confirm your account.');
-      
-      // Clear form after successful submission
-      setFormData({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      });
-      
-      // Redirect to login after a short delay
-      setTimeout(() => {
-        navigate('/login');
-      }, 3000);
+        setFormData({
+          name: '',
+          email: '',
+          password: '',
+          confirmPassword: ''
+        });
+        
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
+      } else {
+        throw new Error('Registration failed');
+      }
+
     } catch (error) {
-      setErrorMessage('An unexpected error occurred');
+      setErrorMessage('An unexpected error occurred: ' + error.message);
       console.error('Registration error:', error);
-    } finally {
-      setIsLoading(false);
     }
   };
   
@@ -344,20 +334,7 @@ export default function RegisterPage() {
                 />
               </div>
             </div>
-            
-            <div className="flex items-center mt-3">
-              <input 
-                id="remember-me" 
-                name="remember-me" 
-                type="checkbox" 
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                Keep me signed in
-              </label>
-            </div>
+          
             
             <div className="pt-3">
               <button

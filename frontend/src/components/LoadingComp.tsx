@@ -1,7 +1,7 @@
 import Lottie from "lottie-react";
 import loadingAnimation from "../assets/lottie/loading.json";
 import type React from "react";
-import type { LoadingProps } from "../libs/PropTypes";
+import type { LoadingProps } from "../custom_types/PropTypes";
 
 const LoadingComp: React.FC<LoadingProps> = ({ shortened, className }: LoadingProps) => {
   return (

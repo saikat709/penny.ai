@@ -1,4 +1,4 @@
-import type { AuthContextType } from "../libs/HookTypes";
+import type { AuthContextType } from "../custom_types/HookTypes";
 import { createContext, useContext } from "react";
 
 export const AuthContext = createContext<AuthContextType | undefined>(

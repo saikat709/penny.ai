@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { ThemeContextType } from '../libs/HookTypes';
+import type { ThemeContextType } from '../custom_types/HookTypes';
 
 export const ThemeContext = createContext<ThemeContextType|null>(null);
 

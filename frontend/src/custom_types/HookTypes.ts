@@ -35,6 +35,7 @@ interface User {
 }
 
 interface AuthContextType {
+  register: (name: string, email: string, password: string) => Promise<boolean>;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => Promise<boolean>;
   handleGoogleLogin: ( ) => Promise<boolean>;

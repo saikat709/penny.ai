@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import type { ModalProps } from "../libs/PropTypes";
+import type { ModalProps } from "../custom_types/PropTypes";
 
 const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 

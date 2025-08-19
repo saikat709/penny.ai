@@ -3,7 +3,7 @@ import {
   useRef,
 } from "react";
 import { WebSocketContext } from "../hooks/useWebSocket";
-import type { WSMessage, WebSocketProviderProps } from "../libs/HookTypes";
+import type { WSMessage, WebSocketProviderProps } from "../custom_types/HookTypes";
 
 
 export const WebSocketProvider = ({

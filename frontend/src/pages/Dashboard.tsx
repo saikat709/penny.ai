@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import useAuth from '../hooks/useAuth';
-import type { AuthContextType } from '../libs/HookTypes';
+import type { AuthContextType } from '../custom_types/HookTypes';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
 import { motion } from 'framer-motion';
 

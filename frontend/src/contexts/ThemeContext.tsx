@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeContext } from '../hooks/useTheme';
-import type { ThemeProviderProps } from '../libs/HookTypes';
+import type { ThemeProviderProps } from '../custom_types/HookTypes';
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const getInitialTheme = () => {

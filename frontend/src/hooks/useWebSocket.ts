@@ -1,4 +1,4 @@
-import type { WebSocketContextType } from "../libs/HookTypes";
+import type { WebSocketContextType } from "../custom_types/HookTypes";
 import { createContext, useContext } from "react";
 
 export const WebSocketContext = createContext<WebSocketContextType | undefined>(

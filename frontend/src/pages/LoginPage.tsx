@@ -12,12 +12,9 @@ import {
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(
-  localStorage.getItem('penny_remember_me') === 'true'
-  );
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { isGoogleLoading, handleGoogleLogin } = useAuth();
+  const { isGoogleLoading, handleGoogleLogin, login } = useAuth();
   
   const navigate = useNavigate();
   
@@ -27,13 +24,7 @@ export default function LoginPage() {
     setIsLoading(true);
     
     try {
-      const { error } = await signIn(email, password, rememberMe);
-      
-      if (error) {
-        setErrorMessage(error.message || 'Failed to sign in');
-        return;
-      }
-      
+      await login(email, password);
       navigate('/profile');
     } catch (error) {
       setErrorMessage('An unexpected error occurred');
@@ -118,7 +109,10 @@ export default function LoginPage() {
           <div className="space-y-4 mb-6">
             <button
               type="button"
-              onClick={handleGoogleLogin}
+              onClick={ async () => {
+                const status = await handleGoogleLogin();
+                if ( status ) navigate('/profile');
+              }}
               disabled={isGoogleLoading}
               className="w-full flex justify-center items-center rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-200 px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-200 shadow-sm hover:bg-gray-50 dark:hover:bg-dark-300 transition-colors duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
             >
@@ -216,7 +210,7 @@ export default function LoginPage() {
                   id="remember-me" 
                   name="remember-me" 
                   type="checkbox" 
-                  checked={rememberMe}
+                  checked={true}
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded"
                 />
