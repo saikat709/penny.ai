@@ -43,7 +43,6 @@ export default function LoginPage() {
     }
   };
   
-  
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark-300 dark:to-dark-400 flex flex-col md:flex-row">
       {/* Left illustration panel */}

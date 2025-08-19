@@ -5,7 +5,9 @@ import {
 } from "react";
 import type { AuthContextType, User } from "../libs/HookTypes";
 import { AuthContext } from "../hooks/useAuth";
-import { useGoogleLogin, type CodeResponse } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
+import { jwt_decode } from "../utils/tokenUtils";
+import axios from "axios";
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -34,7 +36,9 @@ export const AuthContextProvider = ({
 
 
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (
+    email: string, password: string
+  ): Promise<boolean> => {
     setIsLoading(true);
     setErrorMessage('');
     try {
@@ -45,17 +49,24 @@ export const AuthContextProvider = ({
         },
         body: JSON.stringify({ email, password }),
       });
+
       if (!response.ok) {
         const errorData = await response.json();
         setErrorMessage(errorData.message || 'Login failed');
         return false;
       }
+
       const data = await response.json();
       const user: User = data.user;
+
+      console.log("Google User:", user);
+      
       setCurrentUser(user);
       setIsAuthenticated(true);
+      
       localStorage.setItem("userInfo", JSON.stringify(user));
       return true;
+
     } catch (error) {
       setErrorMessage('An unexpected error occurred');
       console.error('Login error:', error);
@@ -66,45 +77,88 @@ export const AuthContextProvider = ({
   };
 
   const googleLogin = useGoogleLogin({
-    onSuccess: async ( codeResponse: Omit<CodeResponse, "error"> ) => {
-      console.log('Google login successful:', codeResponse);
+    flow: "implicit",
+    scope: "openid profile email",
 
+    onSuccess: async (tokenResponse: unknown) => {
+
+      setIsGoogleLoading(true);
       try {
-        const response = await fetch(`${apiUrl}/auth/google`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ code: codeResponse.code }),
-        });
-        if (!response.ok) {
-          const errorData = await response.json();
-          setErrorMessage(errorData.message || 'Google login failed');
-          return;
+        const tr = tokenResponse as Record<string, unknown>;
+
+        if (typeof tr.access_token === 'string') {
+          const res = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+            headers: { Authorization: `Bearer ${tr.access_token}` },
+          });
+          
+          if (!res.ok) throw new Error("Failed to fetch Google userinfo");
+
+          const profile = await res.json();
+  
+          console.log("google userinfo:", profile);
+          
+          const user: User = {
+            name:     profile.name || '',
+            email:    profile.email || '',
+            googleId: profile.sub || '', 
+            role: 'user' 
+          };
+
+          const springRes = await axios.post(`${apiUrl}/auth/google`, {
+            googleId: user.googleId,
+            name: user.name,
+            email: user.email,
+          });
+
+          console.log("Spring response:", springRes);
+
+          if ( !springRes.data.success ) {
+            console.error("Error registering user in backend:", springRes.data.message);
+            throw new Error("Failed to register user in backend");
+          }
+          
+          setCurrentUser(user);
+          setIsAuthenticated(true);
+          setErrorMessage("Google login successful");
+          localStorage.setItem("userInfo", JSON.stringify(user));
+
+        } else if (typeof tr.credential === 'string') {
+          
+          const profile = jwt_decode(tr.credential) as Record<string, unknown>;
+          
+          console.log("decoded id_token:", profile);
+          
+          const userFromIdToken = {
+            name: typeof profile.name === 'string' ? profile.name : (typeof profile.given_name === 'string' ? profile.given_name : ''),
+            email: typeof profile.email === 'string' ? profile.email : '',
+          } as import('../libs/HookTypes').User;
+          
+          setCurrentUser(userFromIdToken);
+          setIsAuthenticated(true);
+          
+          localStorage.setItem("userInfo", JSON.stringify(userFromIdToken));
+
+        } else {
+          console.warn("No access_token or credential on token response");
+          setErrorMessage("Google login failed: No access token or credential found");
         }
-        const data = await response.json();
-        const user: User = data.user;
-        setCurrentUser(user);
-        setIsAuthenticated(true);
-        localStorage.setItem("userInfo", JSON.stringify(user));
-      } catch (error) {
-        setErrorMessage('An unexpected error occurred during Google login');
-        console.error('Google login error:', error);
+      } catch (err) {
+        console.error("Error processing Google login:", err);
+        setErrorMessage("Google login failed");
+      } finally {
+        setIsGoogleLoading(false);
       }
     },
-
-    onError: (error ) => {
-      console.error('Google login error:', error);
-      setErrorMessage(`Error signing in with Google: ${error.message || 'Unknown error'}`);
-    },
-
-    flow: 'auth-code',
-    scope: 'email profile'
-
+    onError: (err) => {
+      console.error("Google login error:", err);
+      setErrorMessage("Google login failed.");
+      setIsGoogleLoading(false);
+    }
   });
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
+    setIsGoogleLoading(true);
     setErrorMessage('');
     try {
       googleLogin();

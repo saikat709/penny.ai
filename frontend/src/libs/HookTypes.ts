@@ -27,9 +27,10 @@ interface SocketParkingStatus {
 }
 
 interface User {
+  id?: string;
   name: string;
   email: string;
-  // optional role field provided by backend, e.g. 'user' | 'admin'
+  googleId?: string;
   role?: string;
 }
 

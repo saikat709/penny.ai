@@ -18,7 +18,6 @@ export default function Navbar() {
   const activeHashRef = useRef(activeHash);
 
   const isLinkActive = (path: string) => {
-    console.log('Checking active link for:', path);
     if (path.startsWith('/#')) {
       const target = path.substring(2); // remove leading '/#'
       return activeHash === target || location.hash === `#${target}`;

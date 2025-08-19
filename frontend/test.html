@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+      const existing = sessionStorage.getItem("foo");
+      if (!existing) {
+        sessionStorage.setItem("foo", "bar");
+        document.body.innerText = "Set foo=bar, refresh me!";
+      } else {
+        document.body.innerText = "foo still here: " + existing;
+      }
+    </script>
+  </body>
+</html>
