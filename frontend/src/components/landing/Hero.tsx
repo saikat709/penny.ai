@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { UserIcon } from '@heroicons/react/24/outline';
+import useAuth from '../../hooks/useAuth';
 
 export default function Hero() {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   return (
     <div className="relative bg-white dark:bg-dark-300 overflow-hidden">
       {/* Background gradient */}
@@ -48,10 +51,20 @@ export default function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <Link to="/register" className="btn btn-primary flex items-center">
-                  <UserIcon className="h-5 w-5 mr-2" />
-                  Create Account
-                </Link>
+                {isAuthenticated ? (
+                  <button
+                    className="btn btn-primary flex items-center"
+                    onClick={() => navigate('/profile')}
+                  >
+                    <UserIcon className="h-5 w-5 mr-2" />
+                    Go to Dashboard
+                  </button>
+                ) : (
+                  <Link to="/register" className="btn btn-primary flex items-center">
+                    <UserIcon className="h-5 w-5 mr-2" />
+                    Create Account
+                  </Link>
+                )}
               </motion.div>
               
               <motion.div 

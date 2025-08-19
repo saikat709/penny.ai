@@ -10,11 +10,11 @@ import type {
 
 
 const roleplayOptions = [
-  { id: 'pizza', name: 'Pizza Delivery', description: 'AI pretends to be taking your pizza order' },
-  { id: 'tech', name: 'Tech Support', description: 'AI acts as technical support helping with your device' },
-  { id: 'boss', name: 'Your Boss', description: 'AI roleplays as your supervisor calling about work' },
-  { id: 'friend', name: 'Friend Checking In', description: 'AI pretends to be a friend catching up' },
-  { id: 'ride', name: 'Ride Share Driver', description: 'AI acts as a driver confirming your pickup details' },
+  { id: 'product', name: 'Product Inquiry', description: 'AI assists with a product-related question' },
+  { id: 'support', name: 'Customer Support', description: 'AI helps with your account or technical issue' },
+  { id: 'teamlead', name: 'Team Lead', description: 'AI roleplays as your team lead discussing a project' },
+  { id: 'colleague', name: 'Colleague Check-In', description: 'AI pretends to be a colleague catching up' },
+  { id: 'delivery', name: 'Delivery Driver', description: 'AI acts as a driver confirming your delivery details' },
 ];
 
 import { 
@@ -35,7 +35,7 @@ export default function ProfileDashboard() {
     fullName: '',
     homeAddress: '',
     emergencyContact: '',
-    medicalInfo: '',
+    additionalPreferences: '',
     preferredRoleplay: 'pizza',
     customRoleplayName: '',
     customRoleplayDetails: '',
@@ -160,10 +160,10 @@ export default function ProfileDashboard() {
             className="mb-6"
           >
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              Your Profile
+              Your Penny.ai Profile
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Set up your emergency profile and communication preferences
+              Set up your profile and communication preferences for Penny.ai
             </p>
           </motion.div>
           
@@ -238,13 +238,13 @@ export default function ProfileDashboard() {
                   
                   <div className="text-xs text-blue-600 dark:text-blue-400 flex items-center bg-blue-50 dark:bg-blue-900/10 p-1.5 px-3 rounded-full">
                     <InformationCircleIcon className="h-4 w-4 mr-1" />
-                    Shared only during emergencies
+                    Your info is private and used only for your account
                   </div>
                 </div>
                 
                 <div className="bg-blue-50 dark:bg-blue-900/10 p-3 rounded-md flex items-center text-sm">
                   <BellAlertIcon className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
-                  This helps emergency services locate and assist you quickly
+                  This helps us personalize your experience and support
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -258,7 +258,7 @@ export default function ProfileDashboard() {
                       name="fullName"
                       value={formData.fullName}
                       onChange={handleInputChange}
-                      placeholder="Your legal name"
+                      placeholder="Your preferred name"
                       className={`block w-full rounded-md border ${formErrors.fullName ? 'border-red-300 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} 
                         bg-white dark:bg-dark-100 px-4 py-3 text-gray-900 dark:text-gray-100 shadow-sm focus:border-primary-500 focus:ring-primary-500`}
                     />
@@ -273,7 +273,7 @@ export default function ProfileDashboard() {
                       name="homeAddress"
                       value={formData.homeAddress}
                       onChange={handleInputChange}
-                      placeholder="Street address, city, state, zip"
+                      placeholder="Address (optional)"
                       rows={2}
                       className={`block w-full rounded-md border ${formErrors.homeAddress ? 'border-red-300 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} 
                         bg-white dark:bg-dark-100 px-4 py-3 text-gray-900 dark:text-gray-100 shadow-sm focus:border-primary-500 focus:ring-primary-500`}
@@ -290,7 +290,7 @@ export default function ProfileDashboard() {
                       name="emergencyContact"
                       value={formData.emergencyContact}
                       onChange={handleInputChange}
-                      placeholder="Name and phone number"
+                      placeholder="Contact person (optional)"
                       className={`block w-full rounded-md border ${formErrors.emergencyContact ? 'border-red-300 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} 
                         bg-white dark:bg-dark-100 px-4 py-3 text-gray-900 dark:text-gray-100 shadow-sm focus:border-primary-500 focus:ring-primary-500`}
                     />
@@ -298,16 +298,16 @@ export default function ProfileDashboard() {
                   
                   <div className="col-span-1 md:col-span-2">
                     <div className="flex justify-between mb-1">
-                      <label htmlFor="medicalInfo" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Medical Information <span className="text-xs text-gray-500">(Optional)</span>
+                      <label htmlFor="additionalPreferences" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Additional Preferences <span className="text-xs text-gray-500">(Optional)</span>
                       </label>
                     </div>
                     <textarea
-                      id="medicalInfo"
-                      name="medicalInfo"
-                      value={formData.medicalInfo}
+                      id="additionalPreferences"
+                      name="additionalPreferences"
+                      value={formData.additionalPreferences}
                       onChange={handleInputChange}
-                      placeholder="Allergies, medications, conditions"
+                      placeholder="Any notes or preferences for your Penny.ai experience"
                       rows={2}
                       className="block w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-100 px-4 py-3 text-gray-900 dark:text-gray-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     />
@@ -326,18 +326,18 @@ export default function ProfileDashboard() {
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <h2 className="text-lg font-medium text-gray-900 dark:text-white">
-                    Emergency Call Type
+                    Support Call Type
                   </h2>
                   
                   <div className="text-xs text-green-600 dark:text-green-400 flex items-center bg-green-50 dark:bg-green-900/10 p-1.5 px-3 rounded-full">
                     <InformationCircleIcon className="h-4 w-4 mr-1" />
-                    Disguises your emergency call
+                    Disguises your support call
                   </div>
                 </div>
                 
                 <div className="bg-green-50 dark:bg-green-900/10 p-3 rounded-md flex items-center text-sm text-green-700 dark:text-green-300">
                   <InformationCircleIcon className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                  Disguises your emergency call as a normal conversation
+                  Disguises your support call as a normal conversation
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -394,7 +394,7 @@ export default function ProfileDashboard() {
                     </div>
                     <div>
                       <h3 className="text-sm font-medium text-gray-900 dark:text-white">Custom Scenario</h3>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Create your own call type</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Create your own support scenario</p>
                     </div>
                   </div>
                 </div>
@@ -411,7 +411,7 @@ export default function ProfileDashboard() {
                         name="customRoleplayName"
                         value={formData.customRoleplayName}
                         onChange={handleInputChange}
-                        placeholder="e.g., Flower Delivery Service"
+                        placeholder="e.g., Special Account Service"
                         className={`block w-full rounded-md border ${formErrors.customRoleplayName ? 'border-red-300 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} 
                           bg-white dark:bg-dark-100 px-4 py-3 text-gray-900 dark:text-gray-100 shadow-sm focus:border-primary-500 focus:ring-primary-500`}
                       />
@@ -427,7 +427,7 @@ export default function ProfileDashboard() {
                         value={formData.customRoleplayDetails}
                         onChange={handleInputChange}
                         rows={3}
-                        placeholder="How the conversation should flow"
+                        placeholder="Describe how the support scenario should work"
                         className={`block w-full rounded-md border ${formErrors.customRoleplayDetails ? 'border-red-300 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} 
                           bg-white dark:bg-dark-100 px-4 py-3 text-gray-900 dark:text-gray-100 shadow-sm focus:border-primary-500 focus:ring-primary-500`}
                       />
@@ -498,7 +498,7 @@ export default function ProfileDashboard() {
           <div className="mt-6 flex justify-between items-center">
             <Link to="/" className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 flex items-center">
               <HomeIcon className="h-5 w-5 mr-1" />
-              Back to Home
+              Back to Penny.ai Home
             </Link>
             
             {/* Progress Dots */}

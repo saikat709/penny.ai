@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 import { 
   ShieldCheckIcon, 
   EyeSlashIcon, 
@@ -43,6 +44,8 @@ const features = [
 ];
 
 export default function Features() {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   return (
     <div id="features" className="bg-white dark:bg-dark-300">
       <div className="container-custom section">
@@ -116,12 +119,21 @@ export default function Features() {
               <div className="mt-12 sm:mt-16 lg:mt-0 lg:ml-8 lg:flex-shrink-0">
                 <div className="sm:flex sm:flex-col sm:items-center lg:items-start">
                   <div className="sm:flex space-x-4">
-                    <Link
-                      to="/register"
-                      className="flex items-center justify-center rounded-md border border-white border-opacity-25 bg-transparent px-6 py-3 text-base font-medium text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-500"
-                    >
-                      Create Account
-                    </Link>
+                    {isAuthenticated ? (
+                      <button
+                        className="flex items-center justify-center rounded-md border border-white border-opacity-25 bg-transparent px-6 py-3 text-base font-medium text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-500"
+                        onClick={() => navigate('/profile')}
+                      >
+                        Go to Dashboard
+                      </button>
+                    ) : (
+                      <Link
+                        to="/register"
+                        className="flex items-center justify-center rounded-md border border-white border-opacity-25 bg-transparent px-6 py-3 text-base font-medium text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-500"
+                      >
+                        Create Account
+                      </Link>
+                    )}
                   </div>
                   <p className="mt-3 text-sm text-primary-100 text-center sm:text-left">
                     Create an account for full access.

@@ -12,6 +12,7 @@ import { SessionProvider } from "./contexts/SessionContext";
 const apiUrl = import.meta.env.VITE_SOCKET_URL;
 
 function App() {
+
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <SessionProvider>

@@ -18,6 +18,7 @@ export default function Navbar() {
   const activeHashRef = useRef(activeHash);
 
   const isLinkActive = (path: string) => {
+    console.log('Checking active link for:', path);
     if (path.startsWith('/#')) {
       const target = path.substring(2); // remove leading '/#'
       return activeHash === target || location.hash === `#${target}`;
@@ -104,6 +105,11 @@ export default function Navbar() {
     }
   };
 
+  useEffect(() => {
+    if (location.pathname === '/profile' && !isAuthenticated && !currentUser) {
+      navigate('/login');
+    }
+  }, [ location, isAuthenticated, currentUser, navigate ]);
 
   const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, anchor: string) => {
     if (anchor.startsWith('#')) {

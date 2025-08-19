@@ -43,7 +43,7 @@ type ProfileFormData = {
   fullName: string;
   homeAddress: string;
   emergencyContact: string;
-  medicalInfo: string;
+  additionalPreferences: string;
   preferredRoleplay: string;
   customRoleplayName: string;
   customRoleplayDetails: string;

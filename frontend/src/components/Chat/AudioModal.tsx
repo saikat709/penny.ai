@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import gemini from '../../libs/genai';
 
 type Props = {
   open: boolean;
@@ -8,19 +7,7 @@ type Props = {
 };
 
 export default function AudioModal({ open, onClose, children }: Props) {
-  
-
-
   useEffect(() => {
-    async function main() {
-      const response = await gemini.models.generateContent({
-        model: 'gemini-2.0-flash-001',
-        contents: 'Why is the sky blue?',
-      });
-      console.log("Audio modal text: ", response.text);
-    }
-    main();
-
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -37,9 +24,17 @@ export default function AudioModal({ open, onClose, children }: Props) {
       <div className="relative bg-white dark:bg-dark-200 rounded-xl p-6 w-[min(720px,95%)] shadow-lg">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Voice input</h3>
-          <button onClick={onClose} className="p-2">Close</button>
+          <button onClick={onClose} className="p-2">
+            Close
+          </button>
         </div>
         <div>{children}</div>
+        <button
+          onClick={() => TTS("Hello, this is a test of the text to speech API.")}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Play TTS
+        </button>
       </div>
     </div>
   );
