@@ -5,12 +5,13 @@ import { useEffect } from "react";
 import useSession from "./hooks/useSession";
 import useAuth from "./hooks/useAuth";
 import Swal from "sweetalert2";
+import LoadingComp from "./components/LoadingComp";
 
 const RootLayout = () => {
 
     const { pathname } = useLocation();
     const { updateSession } = useSession();
-    const { errorMessage } = useAuth();
+    const { errorMessage, isLoading } = useAuth();
 
     useEffect(() => {
         if (updateSession) {
@@ -26,6 +27,10 @@ const RootLayout = () => {
             confirmButtonText: 'OK',
         });
     }, [errorMessage]);
+
+    if ( isLoading ) {
+        return <LoadingComp />
+    }   
 
     return (
         <>

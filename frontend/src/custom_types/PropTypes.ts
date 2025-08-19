@@ -39,4 +39,28 @@ type AnalysisDataType = {
 }
 
 
-export type { ModalProps, LoadingProps, PaginationOptionProps, PieChartCompProps, AnalysisProps, AnalysisDataType };
+type ProfileFormData = {
+  fullName: string;
+  homeAddress: string;
+  emergencyContact: string;
+  medicalInfo: string;
+  preferredRoleplay: string;
+  customRoleplayName: string;
+  customRoleplayDetails: string;
+};
+
+type ProfileFormErrors = {
+  fullName?: string;
+  homeAddress?: string;
+  emergencyContact?: string;
+  customRoleplayName?: string;
+  customRoleplayDetails?: string;
+};
+
+export type { 
+    ModalProps, LoadingProps,
+    PaginationOptionProps, 
+    PieChartCompProps, 
+    AnalysisProps, AnalysisDataType,
+    ProfileFormData, ProfileFormErrors
+};

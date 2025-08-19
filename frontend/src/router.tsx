@@ -15,7 +15,8 @@ import ProfileDashboard from "./pages/ProfileDashboard";
 import Dashboard from "./pages/Dashboard";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import SignupPage from "./pages/SignupPage";
-import AuthCallback from "./pages/AuthCallback";
+import AuthenticatedRoute from "./components/AuthenticatedRoute";
+import NotAuthenticatedRoute from "./components/NotAuthenticatedRoute";
 
 
 const router = createBrowserRouter([
@@ -50,7 +51,9 @@ const router = createBrowserRouter([
       },
       {
         path: "login",
-        element: <LoginqPage />,
+        element: <NotAuthenticatedRoute> 
+            <LoginqPage /> 
+          </NotAuthenticatedRoute>,
       },
       {
         path: "signup",
@@ -58,11 +61,15 @@ const router = createBrowserRouter([
       },
       {
         path: 'profile',
-        element: <ProfileDashboard />,
+        element: (
+          <AuthenticatedRoute> 
+            <ProfileDashboard />
+          </AuthenticatedRoute> 
+          ),
       },
       {
         path: 'dashboard',
-        element: <Dashboard />,
+        element: <AuthenticatedRoute><Dashboard /></AuthenticatedRoute> ,
       },
       {
         path: 'admin',
@@ -82,15 +89,15 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <RegisterPage />,
+        element: <NotAuthenticatedRoute>
+            <RegisterPage />
+          </NotAuthenticatedRoute> ,
       },
       {
         path: "forgot-password",
-        element: <ForgotPasswordPage />,
-      },
-      {
-        path: "google/callback",
-        element: <AuthCallback />,
+        element: <NotAuthenticatedRoute>
+            <ForgotPasswordPage /> 
+           </NotAuthenticatedRoute> ,
       },
       {
         path: "*",

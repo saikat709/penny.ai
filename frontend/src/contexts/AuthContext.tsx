@@ -18,22 +18,36 @@ export const AuthContextProvider = ({
 
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
 
   useEffect(() => {
-    const localUserInfo = localStorage.getItem("userInfo");
-    if (localUserInfo) {
-      const userData: User = JSON.parse(localUserInfo);
-      setCurrentUser(userData);
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, []);
+    const checkLocalStorage = async () => {
 
+      setIsLoading(true);
+      const localUserInfo = localStorage.getItem("userInfo");
+      
+      if (localUserInfo) {
+        const userData = JSON.parse(localUserInfo);
+        const user: User = {
+          id: userData.id || 0,
+          name: userData.name || " ",
+          email: userData.email || " ",
+          googleId: userData.googleId || " ",
+          role: userData.role || 'user',
+        }
+        setCurrentUser(user);
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+      setIsLoading(false);
+    }
+
+    checkLocalStorage();
+  }, []);
 
 
   const register = async (
@@ -67,7 +81,6 @@ export const AuthContextProvider = ({
     }
 
   }
-
 
   const login = async (
     email: string, password: string
@@ -118,7 +131,7 @@ export const AuthContextProvider = ({
 
       setIsGoogleLoading(true);
       let status = false;
-      
+
       try {
         const tr = tokenResponse as Record<string, unknown>;
          const user: User = {

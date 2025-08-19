@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import gemini from '../../libs/genai';
 
 type Props = {
   open: boolean;
@@ -7,7 +8,19 @@ type Props = {
 };
 
 export default function AudioModal({ open, onClose, children }: Props) {
+  
+
+
   useEffect(() => {
+    async function main() {
+      const response = await gemini.models.generateContent({
+        model: 'gemini-2.0-flash-001',
+        contents: 'Why is the sky blue?',
+      });
+      console.log("Audio modal text: ", response.text);
+    }
+    main();
+
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();

@@ -1,8 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-// Supabase removed. Add user/profile DB logic here if needed.
+
+import type { 
+  ProfileFormData, 
+  ProfileFormErrors
+} from '../custom_types/PropTypes';
+
+
+const roleplayOptions = [
+  { id: 'pizza', name: 'Pizza Delivery', description: 'AI pretends to be taking your pizza order' },
+  { id: 'tech', name: 'Tech Support', description: 'AI acts as technical support helping with your device' },
+  { id: 'boss', name: 'Your Boss', description: 'AI roleplays as your supervisor calling about work' },
+  { id: 'friend', name: 'Friend Checking In', description: 'AI pretends to be a friend catching up' },
+  { id: 'ride', name: 'Ride Share Driver', description: 'AI acts as a driver confirming your pickup details' },
+];
 
 import { 
   UserIcon, 
@@ -15,32 +28,6 @@ import {
   BellAlertIcon
 } from '@heroicons/react/24/outline';
 
-
-type ProfileFormData = {
-  fullName: string;
-  homeAddress: string;
-  emergencyContact: string;
-  medicalInfo: string;
-  preferredRoleplay: string;
-  customRoleplayName: string;
-  customRoleplayDetails: string;
-};
-
-type ProfileFormErrors = {
-  fullName?: string;
-  homeAddress?: string;
-  emergencyContact?: string;
-  customRoleplayName?: string;
-  customRoleplayDetails?: string;
-};
-
-const roleplayOptions = [
-  { id: 'pizza', name: 'Pizza Delivery', description: 'AI pretends to be taking your pizza order' },
-  { id: 'tech', name: 'Tech Support', description: 'AI acts as technical support helping with your device' },
-  { id: 'boss', name: 'Your Boss', description: 'AI roleplays as your supervisor calling about work' },
-  { id: 'friend', name: 'Friend Checking In', description: 'AI pretends to be a friend catching up' },
-  { id: 'ride', name: 'Ride Share Driver', description: 'AI acts as a driver confirming your pickup details' },
-];
 
 export default function ProfileDashboard() {
   const [activeTab, setActiveTab] = useState('personal');
@@ -58,98 +45,37 @@ export default function ProfileDashboard() {
   const [formErrors, setFormErrors] = useState<ProfileFormErrors>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [saveError, setSaveError] = useState<string | null>(null);
-  const [sessionCheckComplete, setSessionCheckComplete] = useState<boolean>(false);
   
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
-  const navigate = useNavigate();
+  const { 
+    currentUser, isAuthenticated, 
+    isLoading: authLoading 
+  } = useAuth();
   
-  // Check for session in localStorage before redirecting
-  const checkLocalSession = () => {
-    const savedSession = localStorage.getItem('penny_session');
-    console.log('Checking local session:', savedSession);
-    return true;
-  };
   
-  // Load profile data from Supabase when component mounts
-  useEffect(() => {
-    // Check if we have a session stored in localStorage
-    const hasLocalSession = checkLocalSession();
-    
-    // Don't do anything until the auth state has been checked
-    if (authLoading) {
-      console.log('Auth state still loading...');
-      return;
-    }
-    
-    // Set session check as complete once auth loading is done
-    setSessionCheckComplete(true);
-    
-    // if (!isAuthenticated && !user && !hasLocalSession) {
-    //   console.log('No authenticated user or local session found, redirecting to login');
-    //   // Only redirect if no user AND no stored session
-    //   navigate('/login');
-    //   return;
-    // }
-    
-    // if (user) {
-    //   console.log('User authenticated, loading profile data:', user.email);
-    //   loadProfileData();
-    // } else if (hasLocalSession) {
-    //   // Try to restore session first before redirecting
-    //   console.log('No user but found local session, attempting to restore...');
-      
-    //   // Give time for auth state to resolve
-    //   const timer = setTimeout(() => {
-    //     if (!user && !authLoading) {
-    //       console.log('Session restore failed, redirecting to login');
-    //       navigate('/login');
-    //     }
-    //   }, 2000);
-      
-    //   return () => clearTimeout(timer);
-    // }
-  }, [user, isAuthenticated, authLoading, navigate]);
-  
-  // Function to load profile data from DB (Supabase removed)
-  const loadProfileData = async () => {
-    // Add logic to load user profile from your DB here
-    // Example: fetch('/api/profile')
-    // For now, this is empty.
-    // ...existing code...
-  };
-  
-  // Create a new profile if one doesn't exist (Supabase removed)
-  const createNewProfile = async () => {
-    // Add logic to create a new user profile in your DB here
-    // Example: fetch('/api/profile', { method: 'POST', body: ... })
-    // ...existing code...
-  };
-  
-  // Show loading state while checking auth
-  // if (authLoading || (!sessionCheckComplete && !isAuthenticated)) {
-  //   return (
-  //     <div className="bg-gray-50 dark:bg-dark-300 min-h-screen pt-24">
-  //       <div className="container-custom py-8">
-  //         <div className="max-w-md mx-auto">
-  //           <div className="flex flex-col items-center justify-center py-10">
-  //             <div className="flex justify-center items-center w-20 h-20 rounded-full bg-primary-50 dark:bg-primary-900/20 mb-6">
-  //               <svg className="animate-spin h-10 w-10 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-  //                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-  //                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-  //               </svg>
-  //             </div>
-  //             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-  //               Loading Profile
-  //             </h1>
-  //             <p className="text-gray-600 dark:text-gray-400">
-  //               Please wait while we retrieve your information...
-  //             </p>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if ( authLoading || !isAuthenticated ) {
+    return (
+      <div className="bg-gray-50 dark:bg-dark-300 min-h-screen pt-24">
+        <div className="container-custom py-8">
+          <div className="max-w-md mx-auto">
+            <div className="flex flex-col items-center justify-center py-10">
+              <div className="flex justify-center items-center w-20 h-20 rounded-full bg-primary-50 dark:bg-primary-900/20 mb-6">
+                <svg className="animate-spin h-10 w-10 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              </div>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                Loading Profile
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                Please wait while we retrieve your information...
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -202,36 +128,25 @@ export default function ProfileDashboard() {
     }
   };
   
-  // Navigate to previous tab
-  /*
   const handlePrevTab = () => {
     if (activeTab === 'roleplay') setActiveTab('personal');
   };
-  */
   
   const saveProfile = async (): Promise<void> => {
     setSaveError(null);
 
-    if (!isAuthenticated || !user) {
+    if (!isAuthenticated || !currentUser) {
       setSaveError('You must be logged in to save your profile');
       return;
     }
 
     setIsLoading(true);
-    // Add logic to save/update user profile in your DB here
-    // Example: fetch('/api/profile', { method: 'PUT', body: ... })
-    // For now, just simulate save
     setTimeout(() => {
       setIsSaved(true);
       setIsLoading(false);
       setTimeout(() => setIsSaved(false), 3000);
     }, 1000);
   };
-  
-  // If user is not logged in, redirect to login
-  if (!user) {
-    return <h1 className='text-white pt-20 text-center'> User is null </h1>; // Return null instead of rendering anything
-  }
   
   return (
     <div className="bg-gray-50 dark:bg-dark-300 min-h-screen pt-16">
@@ -606,4 +521,4 @@ export default function ProfileDashboard() {
       </div>
     </div>
   );
-} 
+}

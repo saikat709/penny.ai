@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import useAuth from '../hooks/useAuth';
-import type { AuthContextType } from '../custom_types/HookTypes';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
 import { motion } from 'framer-motion';
 
@@ -13,11 +12,8 @@ type Tx = {
 };
 
 export default function Dashboard() {
-  const auth = useAuth();
-  // Auth provider historically exposed either `currentUser` or `user` in different places.
-  // Prefer the typed `currentUser` from AuthContextType, but fall back to a possible `user` field.
-  const typed = auth as AuthContextType & { user?: { name?: string; email?: string } };
-  const user = typed.currentUser ?? typed.user ?? null;
+
+  const { currentUser } = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
   const [balance, setBalance] = useState<number>(0);
@@ -25,7 +21,6 @@ export default function Dashboard() {
   const [transactions, setTransactions] = useState<Tx[]>([]);
 
   useEffect(() => {
-    // Simulate fetching finance data. Replace with real API calls.
     setIsLoading(true);
     const timer = setTimeout(() => {
       const sampleMonthly = [
@@ -70,7 +65,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Overview of your finances{user ? ` — ${user.name || user.email}` : ''}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Overview of your finances{currentUser ? ` — ${currentUser.name || currentUser.email}` : ''}</p>
             </div>
           </div>
 

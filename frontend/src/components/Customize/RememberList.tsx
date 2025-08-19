@@ -1,3 +1,4 @@
+import { TrashIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
 type Props = {
@@ -38,9 +39,11 @@ export default function RememberList({ value, onChange }: Props) {
           <div className="text-sm text-gray-500">No items yet.</div>
         ) : (
           value.map((it, i) => (
-            <div key={i} className="flex items-center justify-between p-3 bg-white dark:bg-dark-200 rounded border">
+            <div key={i} className="flex items-center justify-between p-3 bg-white dark:bg-dark-200 rounded border border-gray-700 rounded-md">
               <div className="text-sm">{it}</div>
-              <button onClick={() => removeAt(i)} className="text-red-500 text-sm">Remove</button>
+              <button onClick={() => removeAt(i)} className="text-red-500 text-sm p-1 hover:bg-red-200 rounded-lg">
+                <TrashIcon className="inline-block h-5 w-5" />
+              </button>
             </div>
           ))
         )}

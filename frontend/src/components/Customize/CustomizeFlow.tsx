@@ -41,7 +41,7 @@ export default function CustomizeFlow() {
     { id: 'remember', title: "Things to remember", type: 'input' },
     { id: 'about', title: 'About you', type: 'input' },
     { id: 'income', title: 'Income', type: 'input' },
-    { id: 'incomeType', title: 'Income type', type: 'choice', options: ['monthly', 'yearly', 'weekly'] },
+    { id: 'incomeType', title: 'Income type', type: 'choice', options: ['monthly', 'yearly', 'weekly', 'daily'] },
     { id: 'autoAddSalary', title: 'Auto add salary?', type: 'choice', options: ['add', "i'll tell"] },
     { id: 'additional', title: 'Additional info', type: 'input' },
   ];

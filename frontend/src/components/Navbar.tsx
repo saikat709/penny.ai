@@ -8,7 +8,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated, logout, currentUser, user } = useAuth();
+  const { isAuthenticated, logout, currentUser } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -104,11 +104,6 @@ export default function Navbar() {
     }
   };
 
-  useEffect(() => {
-    if (location.pathname === '/profile' && !isAuthenticated && !user && !currentUser) {
-      navigate('/login');
-    }
-  }, [ location, isAuthenticated, user, currentUser, navigate ]);
 
   const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, anchor: string) => {
     if (anchor.startsWith('#')) {
