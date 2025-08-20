@@ -161,7 +161,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
-            {['/#how-it-works', '/#features', '/#faq'].map((path) => {
+            {['/#how-it-works', '/#features', '/#faq', '/learning'].map((path) => {
               const label = path.substring(2).split('-').map(word => 
                 word.charAt(0).toUpperCase() + word.slice(1)
               ).join(' ');
@@ -287,7 +287,7 @@ export default function Navbar() {
       >
         <div className="container-custom py-4 space-y-3">
           {/* Navigation links */}
-          {['/#how-it-works', '/#features', '/#faq'].map((path) => {
+          {['/#how-it-works', '/#features', '/#faq', '/learning'].map((path) => {
             const label = path.substring(2).split('-').map(word => 
               word.charAt(0).toUpperCase() + word.slice(1)
             ).join(' ');
