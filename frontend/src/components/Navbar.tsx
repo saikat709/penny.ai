@@ -18,9 +18,8 @@ export default function Navbar() {
   const activeHashRef = useRef(activeHash);
 
   const isLinkActive = (path: string) => {
-    console.log('Checking active link for:', path);
     if (path.startsWith('/#')) {
-      const target = path.substring(2); // remove leading '/#'
+      const target = path.substring(2); 
       return activeHash === target || location.hash === `#${target}`;
     }
     return location.pathname === path;
@@ -183,6 +182,10 @@ export default function Navbar() {
                 </Link>
               );
             })}
+
+            { isAuthenticated && <Link to={"/dashboard"} className="relative px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 transition-colors rounded-md font-extrabold">
+              Dashboard
+            </Link> }
           </div>
 
           {/* Right side buttons */}
@@ -225,7 +228,7 @@ export default function Navbar() {
                 )}
                 <button 
                   onClick={handleLogout}
-                  className="btn btn-primary btn-glow text-sm px-4 py-2"
+                  className="btn btn-error btn-glow text-sm px-4 py-2"
                 >
                   <span className="relative z-10">Logout</span>
                 </button>
@@ -331,6 +334,13 @@ export default function Navbar() {
               )}
             </>
           )}
+
+          { isAuthenticated 
+            && <Link to={"/dashboard"}  
+              className="relative px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 transition-colors rounded-md font-extrabold">
+              Dashboard
+            </Link> 
+          }
           
           <div className="pt-3 mt-3 border-t border-gray-200 dark:border-gray-700 space-y-4">
             <div className="flex items-center justify-between px-3">
@@ -353,7 +363,7 @@ export default function Navbar() {
             {isAuthenticated ? (
               <button 
                 onClick={handleLogout}
-                className="block w-full mx-2 text-center btn btn-primary btn-glow"
+                className="block w-full mx-2 text-center btn btn-error btn-glow"
               >
                 <span className="relative z-10">Logout</span>
               </button>

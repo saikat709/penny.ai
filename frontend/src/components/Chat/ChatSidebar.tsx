@@ -49,7 +49,7 @@ export default function ChatSidebar({isOpen = true, onClose}: ChatSidebarProps) 
         style={{ width: isOpen ? width : 0 }}
         aria-hidden={!open}
       >
-      <div className="glass-card h-[80vh] overflow-hidden flex flex-col">
+      <div className="glass-card h-full overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-3 border-b border-white/10">
           <div className="flex items-center space-x-2">
             <h3 className="font-semibold">History</h3>

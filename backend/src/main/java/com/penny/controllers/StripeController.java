@@ -19,12 +19,15 @@ import java.util.Map;
 @RequestMapping("/api/stripe")
 public class StripeController {
 
-    @Value("${stripe.client.id:}")
+    @Value("${stripe.client.id:STRIPE_CLIENT_ID}")
     private String clientId;
+
+    @Value("${STRIPE_SECRET_KEY}")
+    private String secretKey;
 
     @GetMapping("/connect")
     public ResponseEntity<Map<String, String>> createConnectLink() {
-        String redirectUri = "https://yourdomain.com/stripe/callback"; // frontend callback URL
+        String redirectUri = "http://localhost:9090/stripe/oauth/callback";
 
         String url = "https://connect.stripe.com/oauth/authorize" +
                 "?response_type=code" +
@@ -40,7 +43,7 @@ public class StripeController {
     public ResponseEntity<String> handleCallback(@RequestParam String code) throws Exception {
 
         Map<String, Object> params = new HashMap<>();
-        params.put("client_secret", Stripe.apiKey);
+        params.put("client_secret", secretKey);
         params.put("code", code);
         params.put("grant_type", "authorization_code");
 

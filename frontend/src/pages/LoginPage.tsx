@@ -25,7 +25,7 @@ export default function LoginPage() {
     
     try {
       await login(email, password);
-      navigate('/profile');
+      navigate('/dashboard');
     } catch (error) {
       setErrorMessage('An unexpected error occurred');
       console.error('Login error:', error);

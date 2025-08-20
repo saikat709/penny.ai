@@ -11,12 +11,12 @@ export default function VoiceRecorder({ onResult, onStart, onStop }: Props) {
   const recognitionRef = useRef<SpeechRecognition | null>(null);
 
   useEffect(() => {
-  type SRCtor = new () => SpeechRecognition;
-  const AnyWin = window as Window & { webkitSpeechRecognition?: SRCtor; SpeechRecognition?: SRCtor };
-  const ctor: SRCtor | undefined = AnyWin.SpeechRecognition || AnyWin.webkitSpeechRecognition;
-  if (!ctor) return;
+    type SRCtor = new () => SpeechRecognition;
+    const AnyWin = window as Window & { webkitSpeechRecognition?: SRCtor; SpeechRecognition?: SRCtor };
+    const ctor: SRCtor | undefined = AnyWin.SpeechRecognition || AnyWin.webkitSpeechRecognition;
+    if (!ctor) return;
 
-  const r: SpeechRecognition = new ctor();
+    const r: SpeechRecognition = new ctor();
     r.continuous = true;
     r.interimResults = true;
     r.lang = 'en-US';
@@ -36,7 +36,7 @@ export default function VoiceRecorder({ onResult, onStart, onStop }: Props) {
       console.warn('Speech recognition error', e);
     };
 
-  recognitionRef.current = r;
+    recognitionRef.current = r;
   }, [onResult]);
 
   const toggle = async () => {

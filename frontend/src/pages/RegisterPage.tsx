@@ -72,9 +72,7 @@ export default function RegisterPage() {
           confirmPassword: ''
         });
         
-        setTimeout(() => {
-          navigate('/login');
-        }, 3000);
+        navigate('/dashboard');
       } else {
         throw new Error('Registration failed');
       }

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import MessageBubble from './MessageBubble';
 import MessageInput from './MessageInput';
+import ExportButton from './ExportButton';
 import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from '@heroicons/react/24/solid';
 
 type Message = {
@@ -92,7 +93,7 @@ const ChatWindow : React.FC<ChatWindowProps> = (
   }, []);
 
   return (
-    <main className="flex-1 flex flex-col glass-card p-4 h-[80vh]">
+    <main className="flex-1 flex flex-col glass-card p-4 h-full">
       <header className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
         <div className='flex items-center space-x-2'>
           { isOpen ? <ChevronDoubleLeftIcon 
@@ -110,7 +111,7 @@ const ChatWindow : React.FC<ChatWindowProps> = (
           </div>
         </div>
         <div className="flex items-center space-x-0.5 md:space-x-2">
-          <button className="border-1 border-blue-200 p-2 rounded-lg hover:bg-blue-400 hover:text-black font-bold">Export</button>
+          <ExportButton messages={messages} />
           <button className="border-1 border-blue-200 p-2 rounded-lg hover:bg-blue-400 hover:text-black font-bold">New</button>
         </div>
       </header>

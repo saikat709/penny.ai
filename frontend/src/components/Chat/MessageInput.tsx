@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import VoiceRecorder from './VoiceRecorder';
 import AudioModal from './AudioModal';
 import FilterSelect from './FilterSelect';
+import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 
 type Props = {
   onSend: (text: string, meta?: { type?: 'income' | 'expense' | 'text'; amount?: number }) => void;
@@ -9,18 +10,17 @@ type Props = {
 
 export default function MessageInput({ onSend }: Props) {
   const [text, setText] = useState<string>('');
-  // default is 'agent' per requirement — treat it as non-clearable default
   const [filter, setFilter] = useState<'agent' | 'consultant' | 'learn'>('agent');
   const [openModal, setOpenModal] = useState(false);
 
   const send = (e: FormEvent) => {
     e.preventDefault();
     if (!text.trim()) return;
-   const amountMatch = text.match(/\$?([0-9]+(?:\.[0-9]{1,2})?)/);
+    const amountMatch = text.match(/\$?([0-9]+(?:\.[0-9]{1,2})?)/);
     const amount = amountMatch ? Number(amountMatch[1]) : undefined;
-  const type = amount && /income|salary|paid|received/i.test(text) ? 'income' : amount && /spent|bought|expense|dinner|lunch|coffee|restaurant/i.test(text) ? 'expense' : 'text';
+    const type = amount && /income|salary|paid|received/i.test(text) ? 'income' : amount && /spent|bought|expense|dinner|lunch|coffee|restaurant/i.test(text) ? 'expense' : 'text';
 
-  onSend(text, { amount, type });
+    onSend(text, { amount, type });
     setText('');
   };
 
@@ -60,10 +60,11 @@ export default function MessageInput({ onSend }: Props) {
             className="btn btn-primary px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base"
             aria-label="Send message"
           >
-            Send
+            <PaperAirplaneIcon className="h-5 w-5 mr-2" />
           </button>
         </div>
       </form>
+
       <AudioModal open={openModal} onClose={() => setOpenModal(false)}>
         <div className="flex flex-col items-center gap-4">
           <div className="w-full text-center text-sm text-gray-500">Speak now — transcription will appear live</div>
