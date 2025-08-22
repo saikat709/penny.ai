@@ -1,4 +1,21 @@
-const transactionalKeywords = ["amazon", "ebay", "walmart", "target", "bestbuy", "etsy", "shopify"];
+
+// Show sign in popup when extension is installed
+browser.runtime.onInstalled.addListener(() => {
+  browser.windows.create({
+    url: "signin.html",
+    type: "popup",
+    width: 400,
+    height: 300
+  });
+});
+
+
+const transactionalKeywords = [
+  "amazon", "ebay", "walmart", 
+  "target", "bestbuy", "etsy",
+  "shopify"
+];
+
 const tabUrls = {};
 
 browser.webNavigation.onBeforeNavigate.addListener(details => {
