@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Penny.ai Transaction Logger",
+  "name": "Penny.ai - Observer",
   "version": "1.0",
   "description": "Logs transactions when a user closes a tab.",
   "icons": {
@@ -12,7 +12,8 @@
       "48": "icons/penny.svg",
       "96": "icons/penny.svg"
      },
-    "default_popup": "popup.html"
+    "default_popup": "templates/popup.html",
+    "default_title": "Penny.ai - Observer"
   },
   "permissions": [
     "tabs",
@@ -21,6 +22,6 @@
     "storage"
   ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["scripts/background.js"]
   }
 }

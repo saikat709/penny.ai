@@ -1,17 +1,7 @@
-
 // Alert all localStorage data when popup is opened
 window.addEventListener('DOMContentLoaded', () => {
-  let allData = '';
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    const value = localStorage.getItem(key);
-    allData += `${key}: ${value}\n`;
-  }
-  if (allData) {
-    alert('localStorage data:\n' + allData);
-  } else {
-    alert('localStorage is empty.');
-  }
+  // when popup.html is opened
+  // i.e the html that connects this script
 });
 
 const sendButton = document.getElementById("send");

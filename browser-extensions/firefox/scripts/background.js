@@ -1,8 +1,7 @@
-
 // Show sign in popup when extension is installed
 browser.runtime.onInstalled.addListener(() => {
   browser.windows.create({
-    url: "signin.html",
+    url: "../templates/signin.html",
     type: "popup",
     width: 400,
     height: 300
@@ -34,7 +33,7 @@ browser.tabs.onRemoved.addListener((tabId, removeInfo) => {
     const urlObject = new URL(url);
     if (transactionalKeywords.some(keyword => urlObject.hostname.includes(keyword))) {
       browser.windows.create({
-        url: "popup.html",
+        url: "../templates/popup.html",
         type: "popup",
         width: 400,
         height: 300
