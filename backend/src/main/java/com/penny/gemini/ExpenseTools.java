@@ -1,18 +1,11 @@
 package com.penny.gemini;
 
-import com.penny.repositories.ExpenseRepository;
 import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ExpenseTools {
-
-    private ExpenseRepository expenseRepository;
-
-    public ExpenseTools(ExpenseRepository expenseRepository){
-        this.expenseRepository = expenseRepository;
-    }
 
     @Tool("This tool is used whenever user uses the 'expense'  keyword. THis is a test tool")
     public boolean testTool(){

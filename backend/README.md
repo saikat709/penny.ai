@@ -4,6 +4,10 @@ A production-ready Spring Boot backend for Penny.AI, your AI-powered financial b
 
 ![Backend Home](others/images/backend_home.png)
 
+## Database UML
+
+![Database UML](others/images/db-uml.png)
+
 
 ## Highlights
 - Modern Spring Boot 3 (Java 17)
