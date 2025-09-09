@@ -73,7 +73,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <AuthenticatedRoute><Dashboard /></AuthenticatedRoute> ,
+        element: <AuthenticatedRoute> <Dashboard /> </AuthenticatedRoute> ,
       },
       {
         path: 'admin',
