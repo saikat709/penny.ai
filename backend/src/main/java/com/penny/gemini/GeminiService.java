@@ -1,98 +1,51 @@
 package com.penny.gemini;
 
-import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.model.StreamingResponseHandler;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
-import dev.langchain4j.model.googleai.GoogleAiGeminiStreamingChatModel;
-import dev.langchain4j.model.output.Response;
 import dev.langchain4j.service.AiServices;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import dev.langchain4j.data.message.AiMessage;
-
-import java.util.List;
-import java.util.function.Consumer;
 
 @Service
 public class GeminiService {
 
-    private ChatLanguageModel model;
-    private StreamingChatLanguageModel streamModel;
-    public PennyAiAssistant pennyAiAssistant;
-    private final String MODEL_NAME = "gemini-1.5-flash";
+    private final PennyAiAssistant pennyAiAssistant;
 
-    public GeminiService(@Value("${gemini.api.key:${GEMINI_API_KEY:}}") String apiKey, ExpenseTools expenseTools) {
+    public GeminiService(
+            @Value("${gemini.api.key:${GEMINI_API_KEY:}}") String apiKey,
+            TransactionTools transactionTools,
+            DateTimeTools dateTimeTools
+    ) {
 
         if (apiKey == null || apiKey.isBlank()) {
             System.out.println("ERROR: Api key is blank.");
-            return;
+            throw new IllegalStateException("Gemini API key is not provided.");
         }
 
-        this.model = GoogleAiGeminiChatModel.builder()
+        GoogleAiGeminiChatModel model = GoogleAiGeminiChatModel.builder()
                 .apiKey(apiKey)
-                .modelName(MODEL_NAME)
-                .temperature(0.7)
-                .build();
-
-        this.streamModel = GoogleAiGeminiStreamingChatModel.builder()
-                .apiKey(apiKey)
-                .modelName(MODEL_NAME)
+                .modelName("gemini-1.5-flash")
                 .temperature(0.7)
                 .build();
 
         pennyAiAssistant = AiServices.builder(PennyAiAssistant.class)
                 .chatLanguageModel(model)
-                // .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
-                // .contentRetriever(retriever)
-                 .tools(expenseTools)
+                .tools(transactionTools, dateTimeTools)
                 .build();
     }
 
-
-    public String askPennyAssistant(String prompt){
-        if ( pennyAiAssistant == null ) {
-            throw new IllegalStateException("Error on ask PennyAI method.");
-        }
-        return pennyAiAssistant.financeTalk(prompt);
-    }
-
-    public String askGemini(String prompt) {
-        if (model == null) {
-            throw new IllegalStateException("GeminiService is not configured. Provide GEMINI_API_KEY env var or 'gemini.api.key' property.");
-        }
-        return model.generate(List.of(new UserMessage(prompt))).content().text();
-    }
-
-    public void streamResponse(String prompt, Consumer<String> tokenConsumer, Runnable onComplete, Consumer<Throwable> onError) {
-        if (streamModel == null) {
-            throw new IllegalStateException("GeminiService is not configured. Provide GEMINI_API_KEY env var or 'gemini.api.key' property.");
-        }
-        if (tokenConsumer == null) {
-            throw new IllegalArgumentException("tokenConsumer must not be null");
-        }
-
-        streamModel.generate(prompt, new StreamingResponseHandler<AiMessage>() {
-            @Override
-            public void onNext(String token) {
-                tokenConsumer.accept(token);
+    public String askPennyAssistant(String prompt, Long userId) {
+        try {
+            String result = pennyAiAssistant.financeTalk(prompt, userId);
+            if ( result == null || result.isBlank() ) {
+                return "I'm sorry, I couldn't generate a response right now. Please try again.";
             }
-
-            @Override
-            public void onComplete(Response<AiMessage> response) {
-                if (onComplete != null) {
-                    onComplete.run();
-                }
-            }
-
-            @Override
-            public void onError(Throwable error) {
-                if (onError != null) {
-                    onError.accept(error);
-                }
-            }
-        });
+            return result;
+        } catch (NullPointerException npe) {
+            System.err.println("[GeminiService] Caught NullPointerException while processing AI response: " + npe.getMessage());
+            return "I'm sorry, I couldn't generate a response right now. Please try again.";
+        } catch (Exception ex) {
+            System.err.println("[GeminiService] Error while calling PennyAiAssistant: " + ex.getMessage());
+            return "Something went wrong while processing your request. Please try again.";
+        }
     }
-
 }

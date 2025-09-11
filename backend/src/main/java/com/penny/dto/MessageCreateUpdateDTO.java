@@ -14,5 +14,5 @@ public class MessageCreateUpdateDTO {
     private Long conversationId;
     private String type;
     private String sender;
-    private List<MessagePartCreateUpdateDTO> parts;
+    private List<MessagePartCreateUpdateDTO> parts = new java.util.ArrayList<>();
 }

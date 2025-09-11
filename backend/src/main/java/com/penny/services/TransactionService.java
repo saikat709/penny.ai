@@ -79,10 +79,10 @@ public class TransactionService {
     private TransactionDTO convertToDTO(Transaction transaction) {
         TransactionDTO dto = new TransactionDTO();
         dto.setId(transaction.getId());
-        dto.setUserId(transaction.getUser().getId());
+        dto.setId(transaction.getUser().getId());
         dto.setAmount(transaction.getAmount());
         dto.setType(transaction.getType());
-        dto.setTimestamp(transaction.getTimestamp());
+        dto.setTimestamp(String.valueOf(transaction.getTimestamp()));
         dto.setDescription(transaction.getDescription());
         if (transaction.getCategory() != null) {
             dto.setCategoryId(transaction.getCategory().getId());

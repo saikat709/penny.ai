@@ -25,7 +25,6 @@ public class MessagePart {
     @Column(name = "type", nullable = false, length = 50)
     private String type;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "TEXT")
     private String data;
 }

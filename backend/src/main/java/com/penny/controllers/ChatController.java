@@ -1,32 +1,37 @@
 package com.penny.controllers;
 
 import com.penny.gemini.GeminiService;
-import com.penny.gemini.PennyAiAssistant;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import com.penny.models.UserEntity;
+import com.penny.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/chat")
+@RequiredArgsConstructor
 public class ChatController {
-    GeminiService geminiService;
+    private final GeminiService geminiService;
+    private final UserRepository userRepository;
 
-    public ChatController(GeminiService geminiService) {
-        this.geminiService = geminiService;
+    @PostMapping
+    public String chat(@RequestBody Map<String, String> payload) {
+        String prompt = payload.get("prompt");
+
+        Optional<UserEntity> userOptional = userRepository.findFirstByOrderByIdAsc();
+        UserEntity user = userOptional.orElseGet(() -> {
+            UserEntity newUser = new UserEntity();
+            newUser.setEmail("test@example.com");
+            newUser.setName("Test User");
+            newUser.setPasswordHash("password"); // Should be hashed
+            return userRepository.save(newUser);
+        });
+
+        return geminiService.askPennyAssistant(prompt, user.getId());
     }
-
-    @GetMapping(value = "/stream-test", produces = MediaType.TEXT_HTML_VALUE)
-    public String chatStreamTestPage() throws IOException {
-        ClassPathResource resource = new ClassPathResource("templates/chat-stream-test.html");
-        return new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-    }
-
-    @PostMapping("/chat")
-    public String chat(@RequestParam String prompt) {
-        return geminiService.askPennyAssistant(prompt);
-    }
-
 }

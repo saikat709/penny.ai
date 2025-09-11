@@ -22,6 +22,7 @@ public class GlobalExceptionHandler {
     public Map<String, String> handleValidationExceptions(
             MethodArgumentNotValidException ex
     ) {
+        ex.printStackTrace();
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
@@ -33,6 +34,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
+        ex.printStackTrace();
         return new ResponseEntity<>("Invalid argument: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -43,6 +45,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+        ex.printStackTrace();
         System.out.println("\n============== Runtime ERROR ===============");
         System.out.println(ex.getLocalizedMessage());
         System.out.println("===========================================\n");
@@ -51,6 +54,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<String> handleAuthenticationError(AuthenticationException ex){
+        ex.printStackTrace();
         System.out.println("\n================= Auth Error ==============");
         System.out.println(ex.getLocalizedMessage());
         System.out.println("==========================================\n");
