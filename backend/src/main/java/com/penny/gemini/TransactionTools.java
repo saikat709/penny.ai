@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -64,6 +65,7 @@ public class TransactionTools {
             @P("The ID of the user for this transaction") Long userId
     ) {
         System.out.println("getTransactionsBetweenDates called with:");
+
         System.out.println("  startDateString: " + startDateString);
         System.out.println("  endDateString: " + endDateString);
         System.out.println("  userId: " + userId);
@@ -78,6 +80,14 @@ public class TransactionTools {
 
         System.out.println("TRANS: " + transactions.toString());
         return transactions.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    @Tool("Get last transaction")
+    public TransactionDTO getLastTransaction(
+            @P("User id of the current user") Long userId
+    ) {
+        Optional<List<Transaction>> lastTrans = transactionRepository.findByUserId(userId);
+        return lastTrans.isEmpty() ? null :  toDto(lastTrans.get().get(0));
     }
 
     @Tool("Get a category by its name.")

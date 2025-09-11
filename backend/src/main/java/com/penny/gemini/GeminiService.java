@@ -23,8 +23,8 @@ public class GeminiService {
 
         GoogleAiGeminiChatModel model = GoogleAiGeminiChatModel.builder()
                 .apiKey(apiKey)
-                .modelName("gemini-1.5-flash")
-                .temperature(0.7)
+                .modelName("gemini-2.5-flash")
+                .temperature(1.0)
                 .build();
 
         pennyAiAssistant = AiServices.builder(PennyAiAssistant.class)
