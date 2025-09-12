@@ -1,9 +1,12 @@
 package com.penny.gemini;
 
+import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.service.AiServices;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class GeminiService {
@@ -33,19 +36,8 @@ public class GeminiService {
                 .build();
     }
 
-    public String askPennyAssistant(String prompt, Long userId) {
-        try {
-            String result = pennyAiAssistant.financeTalk(prompt, userId);
-            if ( result == null || result.isBlank() ) {
-                return "I'm sorry, I couldn't generate a response right now. Please try again.";
-            }
-            return result;
-        } catch (NullPointerException npe) {
-            System.err.println("[GeminiService] Caught NullPointerException while processing AI response: " + npe.getMessage());
-            return "I'm sorry, I couldn't generate a response right now. Please try again.";
-        } catch (Exception ex) {
-            System.err.println("[GeminiService] Error while calling PennyAiAssistant: " + ex.getMessage());
-            return "Something went wrong while processing your request. Please try again.";
-        }
+    public String askPennyAssistant(List<ChatMessage> messages) {
+        String result = pennyAiAssistant.financeTalk(messages);
+        return result;
     }
 }

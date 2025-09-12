@@ -1,11 +1,10 @@
 package com.penny.gemini;
 
+import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.service.SystemMessage;
-import dev.langchain4j.service.UserMessage;
-import dev.langchain4j.service.V;
+import java.util.List;
 
 public interface PennyAiAssistant {
-
     @SystemMessage(
             """
             You are a helpful AI assistant for Penny, a personal finance application.
@@ -38,7 +37,21 @@ public interface PennyAiAssistant {
             - $15.00 on Groceries (2025-09-01T10:00:00Z)
             - $5.00 on Coffee (2025-09-02T15:30:00Z)
             ..."
+            
+            
+            Output of AI will be in a format of the given example as json: 
+            {
+                type: normal, warning, error, failure, success,
+                parts: [
+                    {
+                        type: text, bar, pie, line,
+                        data: JsonString of the response text or data.
+                    }   
+                ]
+            }
+            
             """
     )
-    String financeTalk(@UserMessage String prompt, @V("userId") Long userId);
+
+    String financeTalk(List<ChatMessage> messages);
 }

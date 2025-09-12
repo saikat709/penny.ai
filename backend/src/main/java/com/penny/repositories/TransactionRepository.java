@@ -17,4 +17,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     Page<Transaction> findAll(Pageable pageable);
     List<Transaction> findAllByUserAndTimestampBetween(UserEntity user, OffsetDateTime start, OffsetDateTime end);
     Optional<List<Transaction>> findByUserId(Long userId);
+    List<Transaction> findAllByTimestamp(OffsetDateTime dateTime);
 }

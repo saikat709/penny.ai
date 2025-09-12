@@ -90,8 +90,21 @@ public class TransactionTools {
         return lastTrans.isEmpty() ? null :  toDto(lastTrans.get().get(0));
     }
 
+
+
+    @Tool("Get Transaction of a specific date")
+    public List<TransactionDTO> getTransactionOfDate(
+            @P("The date for the transactions ( ISO 8601 format, e.g., '2023-01-01T00:00:00Z' )") String date
+    ){
+        OffsetDateTime givenDate = OffsetDateTime.parse(date, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        List<Transaction> transactions = transactionRepository.findAllByTimestamp(givenDate);
+        return transactions.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
     @Tool("Get a category by its name.")
-    public Category getCategoryByName(@P("The name of the category.") String name) {
+    public Category getCategoryByName(
+            @P("The name of the category.") String name
+    ) {
         return categoryRepository.findByName(name);
     }
 
