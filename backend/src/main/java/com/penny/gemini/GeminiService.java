@@ -1,6 +1,7 @@
 package com.penny.gemini;
 
 import dev.langchain4j.data.message.ChatMessage;
+import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.service.AiServices;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,13 +11,13 @@ import java.util.List;
 
 @Service
 public class GeminiService {
-
     private final PennyAiAssistant pennyAiAssistant;
 
     public GeminiService(
             @Value("${gemini.api.key:${GEMINI_API_KEY:}}") String apiKey,
             TransactionTools transactionTools,
-            DateTimeTools dateTimeTools
+            DateTimeTools dateTimeTools,
+            ReportTools reportTools
     ) {
 
         if (apiKey == null || apiKey.isBlank()) {
@@ -24,20 +25,19 @@ public class GeminiService {
             throw new IllegalStateException("Gemini API key is not provided.");
         }
 
-        GoogleAiGeminiChatModel model = GoogleAiGeminiChatModel.builder()
+        ChatLanguageModel model = GoogleAiGeminiChatModel.builder()
                 .apiKey(apiKey)
                 .modelName("gemini-2.5-flash")
-                .temperature(1.0)
+                .temperature(0.7)
                 .build();
 
         pennyAiAssistant = AiServices.builder(PennyAiAssistant.class)
                 .chatLanguageModel(model)
-                .tools(transactionTools, dateTimeTools)
+                .tools(transactionTools, dateTimeTools, reportTools)
                 .build();
     }
 
-    public String askPennyAssistant(List<ChatMessage> messages) {
-        String result = pennyAiAssistant.financeTalk(messages);
-        return result;
+    public String askPennyAssistant(List<ChatMessage> mgs) {
+        return pennyAiAssistant.financeTalk(mgs);
     }
 }

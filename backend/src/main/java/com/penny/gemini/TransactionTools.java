@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.penny.gemini.ReportTools.getTransactionDTO;
+
 @Component
 @RequiredArgsConstructor
 public class TransactionTools {
@@ -59,7 +61,7 @@ public class TransactionTools {
     }
 
     @Tool("Get a list of transactions for the user within a specified date range.")
-    public List<TransactionDTO> getTransactionsBetweenDates(
+    public List<TransactionDTO> getTransactionsBetweenDates (
             @P("The start date for the transaction list (ISO 8601 format, e.g., '2023-01-01T00:00:00Z').") String startDateString,
             @P("The end date for the transaction list (ISO 8601 format, e.g., '2023-01-31T23:59:59Z').") String endDateString,
             @P("The ID of the user for this transaction") Long userId
@@ -91,7 +93,6 @@ public class TransactionTools {
     }
 
 
-
     @Tool("Get Transaction of a specific date")
     public List<TransactionDTO> getTransactionOfDate(
             @P("The date for the transactions ( ISO 8601 format, e.g., '2023-01-01T00:00:00Z' )") String date
@@ -109,13 +110,6 @@ public class TransactionTools {
     }
 
     private TransactionDTO toDto(Transaction transaction) {
-        TransactionDTO dto = new TransactionDTO();
-        dto.setId(transaction.getId());
-        dto.setAmount(transaction.getAmount());
-        dto.setType(transaction.getType());
-        dto.setTimestamp(transaction.getTimestamp().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-        dto.setDescription(transaction.getDescription());
-        dto.setCategoryId(transaction.getCategory().getId());
-        return dto;
+        return getTransactionDTO(transaction);
     }
 }

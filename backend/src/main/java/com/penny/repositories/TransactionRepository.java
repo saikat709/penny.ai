@@ -15,7 +15,21 @@ import java.util.Optional;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     Page<Transaction> findAll(Pageable pageable);
+
     List<Transaction> findAllByUserAndTimestampBetween(UserEntity user, OffsetDateTime start, OffsetDateTime end);
-    Optional<List<Transaction>> findByUserId(Long userId);
-    List<Transaction> findAllByTimestamp(OffsetDateTime dateTime);
+
+    List<Transaction> findAllByUserAndTimestampBefore(UserEntity user, OffsetDateTime date);
+
+    List<Transaction> findAllByUser(UserEntity user);
+
+    Optional<List<Transaction>> findByUserId(Long id);
+
+    List<Transaction> findAllByTimestamp(OffsetDateTime date);
+
+    List<Transaction> findAllByUserAndTimestampGreaterThanEqualAndTimestampLessThan(
+            UserEntity user,
+            OffsetDateTime startInclusive,
+            OffsetDateTime endExclusive
+    );
+
 }

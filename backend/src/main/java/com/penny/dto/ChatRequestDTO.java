@@ -3,6 +3,7 @@ package com.penny.dto;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -12,8 +13,11 @@ import lombok.*;
 @AllArgsConstructor
 public class ChatRequestDTO {
     @Nullable
-    Integer user_id;
+    Long userId;
 
     @NotBlank
     String prompt;
+
+    @NotNull
+    Long conversationId;
 }
