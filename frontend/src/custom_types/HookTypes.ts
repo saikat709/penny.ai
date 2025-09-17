@@ -1,4 +1,3 @@
-import type { GoogleCredentialResponse } from "@react-oauth/google";
 import type { ReactNode } from "react";
 
 interface WSMessage {
@@ -35,8 +34,8 @@ interface User {
 }
 
 interface AuthContextType {
-  register: (name: string, email: string, password: string) => Promise<boolean>;
-  login: (email: string, password: string) => Promise<boolean>;
+  register: ( name: string, email: string, password: string ) => Promise<boolean>;
+  login: ( email: string, password: string ) => Promise<boolean>;
   logout: () => Promise<boolean>;
   handleGoogleLogin: ( ) => Promise<boolean>;
   isLoading: boolean;
@@ -66,4 +65,26 @@ export type {
   User,
   ThemeContextType,
   ThemeProviderProps
+};
+
+
+export type TextData = {
+  text: string;
+}
+
+export type MessagePart = {
+  type: 'text' | 'bar_chart' | 'line_chart' | 'pie_chart';
+  data: string;
+}
+
+export type Message = {
+  id: string;
+  type?: 'success' | 'failure' | 'error';
+  parts: MessagePart[];
+  sender: 'user' | 'ai';
+}
+
+export type ChatContextType = {
+  messages: Message[];
+  addMessage: ( message: Message ) => void;
 };

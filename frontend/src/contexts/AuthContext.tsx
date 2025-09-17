@@ -16,11 +16,11 @@ export const AuthContextProvider = ({
   children,
 }: { children: ReactNode }) => {
 
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [ currentUser, setCurrentUser] = useState<User | null>(null);
+  const [ isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [ isLoading, setIsLoading] = useState<boolean>(true);
+  const [ isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
+  const [ errorMessage, setErrorMessage] = useState<string>('');
 
 
   useEffect(() => {

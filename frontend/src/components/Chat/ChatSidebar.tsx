@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { XMarkIcon } from '@heroicons/react/24/solid';
+import { ChatBubbleLeftIcon } from '@heroicons/react/24/solid';
+// import { XMarkIcon } from '@heroicons/react/24/solid';
 
 const mockConversations = Array.from({ length: 8 }).map((_, i) => ({
-  id: String(i + 1),
-  title: `Conversation ${i + 1}`,
-  last: 'Quick summary or last message...',
+  id: i + 1,
+  last: `Conversation ${i + 1}`,
+  title: 'Quick summary or last message...',
 }));
 
 
@@ -42,10 +43,16 @@ export default function ChatSidebar({isOpen = true, onClose}: ChatSidebarProps) 
     };
   }, []);
 
+
+  const handleHistoryClick = (id: number) => {
+    // TODO: Replace with actual conversation selection logic
+    console.log('Selected conversation:', id);
+  }
+
   return (
     <>
       <motion.aside
-        className={`absolute top-16 left-1 md:block md:relative md:top-0 md:left-0 z-10 transition-all duration-200 flex-shrink-0 ${isOpen ? '' : 'hidden'}`}
+        className={ `absolute top-16 left-1 md:block md:relative md:top-0 md:left-0 z-10 transition-all duration-200 flex-shrink-0 ${isOpen ? '' : 'hidden'}`}
         style={{ width: isOpen ? width : 0 }}
         aria-hidden={!open}
       >
@@ -55,20 +62,29 @@ export default function ChatSidebar({isOpen = true, onClose}: ChatSidebarProps) 
             <h3 className="font-semibold">History</h3>
             <span className="text-sm text-gray-500 dark:text-gray-400">Recent chats</span>
           </div>
-          <XMarkIcon className='h-6 w-6 text-gray-500 dark:text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300' onClick={onClose} />
+            <button
+              className="flex items-center space-x-2 p-1 px-3 rounded-md bg-green-100 hover:bg-green-200 transition-colors focus:outline-none focus:ring-2 focus:ring-green-400"
+              type="button"
+              >
+              <ChatBubbleLeftIcon className="h-6 w-6 text-green-600" />
+              <span className="font-semibold text-green-700">New Chat</span>
+            </button>
+          {/* <XMarkIcon className='h-6 w-6 text-gray-500 dark:text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300' onClick={onClose} /> */}
         </div>
 
         <div className="overflow-auto p-2 space-y-2">
           {mockConversations.map((c) => (
             <button
               key={c.id}
-              className="w-full text-left p-3 rounded-md hover:bg-primary-50 dark:hover:bg-dark-200 transition-colors flex flex-col"
+              onClick={ () => handleHistoryClick(c.id) }
+              className="w-full text-left p-2 rounded-md transition-colors flex flex-col hover:bg-blue-100 dark:hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              type="button"
             >
               <div className="flex items-center justify-between">
                 <div className="font-medium">{c.title}</div>
-                <div className="text-xs text-gray-400">2h</div>
+                {/* <div className="text-xs text-gray-400">2h</div> */}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">{c.last}</div>
+              {/* <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">{c.last}</div> */}
             </button>
           ))}
         </div>

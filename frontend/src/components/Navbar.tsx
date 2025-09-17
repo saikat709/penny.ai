@@ -4,11 +4,15 @@ import useTheme from '../hooks/useTheme';
 import useAuth from '../hooks/useAuth';
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+  const [ scrolled, setScrolled ] = useState(false);
+  const [ scrollProgress, setScrollProgress ] = useState(0);
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated, logout, currentUser } = useAuth();
+  const {
+    isAuthenticated,
+    logout,
+    currentUser
+  } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -18,10 +22,14 @@ export default function Navbar() {
   const activeHashRef = useRef(activeHash);
 
   const isLinkActive = (path: string) => {
+
+    // console.log({path, location, activeHash});
+
     if (path.startsWith('/#')) {
       const target = path.substring(2); 
       return activeHash === target || location.hash === `#${target}`;
     }
+
     return location.pathname === path;
   };
 
@@ -115,15 +123,13 @@ export default function Navbar() {
       e.preventDefault();
       
       if (location.pathname !== '/') {
-  // navigate to the home path and include the hash so react-router updates location
-  navigate({ pathname: '/', hash: anchor });
-  return;
+        navigate({ pathname: '/', hash: anchor });
+        return;
       }
       
       const element = document.getElementById(anchor.substring(1));
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
-        // Update the URL hash using react-router so useLocation reflects the change
         navigate({ hash: anchor }, { replace: true });
       }
     }
@@ -161,7 +167,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
-            {['/#how-it-works', '/#features', '/#faq', '/learning'].map((path) => {
+            {['/#how-it-works', '/#features', '/#faq'].map((path) => {
               const label = path.substring(2).split('-').map(word => 
                 word.charAt(0).toUpperCase() + word.slice(1)
               ).join(' ');
@@ -182,7 +188,18 @@ export default function Navbar() {
                 </Link>
               );
             })}
-
+             <Link 
+                  to={'/learning'} 
+                  onClick={(e) => navigate('/learning')}
+                  className={`relative px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 transition-colors rounded-md ${
+                    isLinkActive("/learning") ? 'font-medium text-primary-600 dark:text-primary-400' : ''
+                  }`}
+                >
+                  {"Learing"}
+                  {isLinkActive("/learning") && (
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full" />
+                  )}
+                </Link>
             { isAuthenticated && <Link to={"/dashboard"} className="relative px-3 py-2 text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 transition-colors rounded-md font-extrabold">
               Dashboard
             </Link> }
